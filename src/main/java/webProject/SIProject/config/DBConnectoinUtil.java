@@ -1,4 +1,4 @@
-package webProject.SIProject;
+package webProject.SIProject.config;
 
 
 import lombok.extern.slf4j.Slf4j;

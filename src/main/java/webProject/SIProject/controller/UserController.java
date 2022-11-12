@@ -1,65 +1,57 @@
 package webProject.SIProject.controller;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import webProject.SIProject.domain.Role;
-import webProject.SIProject.domain.User;
-import webProject.SIProject.dto.Join_DTO;
-import webProject.SIProject.repository.UserRepository;
+import org.springframework.web.bind.annotation.*;
+import webProject.SIProject.dto.User_DTO;
+import webProject.SIProject.service.UserService;
 
-import java.sql.SQLException;
-import java.sql.Timestamp;
-import java.util.UUID;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 @Slf4j
+@RequiredArgsConstructor
 @Controller
 public class UserController {
-    @Autowired private BCryptPasswordEncoder bCryptPasswordEncoder;
-    @Autowired private UserRepository userRepository;
+    private final UserService userService;
 
-    @GetMapping("/loginForm")
-    public String loginForm(){
+
+    @GetMapping("/")
+    public String goToPage(){
+        return "main";
+    }
+
+
+    @GetMapping("/login")
+    public String loginPage(){
         return "login";
     }
 
-    @GetMapping("/joinForm")
-    public String joinForm(){
-        return "join";
-    }
-
-    @PostMapping("/join")
-    public String join(@ModelAttribute Join_DTO join_dto) throws SQLException {
-
-
-        String encodePwd = bCryptPasswordEncoder.encode(join_dto.getPassword());
-        Timestamp timestamp = new Timestamp(System.currentTimeMillis());
-        User user = new User(UUID.randomUUID().toString(),join_dto.getUsername(),encodePwd, Role.USER,timestamp);
-        userRepository.save(user);  //반드시 패스워드 암호화해야함
-
-        return "redirect:/loginForm";
-    }
-
-    @GetMapping("/user")
-    @ResponseBody
-    public String user(){
-        return "user";
-    }
-
-    @GetMapping("/manager")
-    @ResponseBody
-    public String manager(){
-        return "manager";
-    }
-
     @GetMapping("/admin")
-    @ResponseBody
-    public String admin(){
+    public String adminPage(){
         return "admin";
     }
+
+    @GetMapping("/signup")
+    public String signupPage(){
+        return "signup";
+    }
+
+
+    @PostMapping("/user")
+    public String signup(User_DTO infoDto) { // 회원 추가
+        userService.save(infoDto);
+        return "redirect:/login";
+    }
+
+    @GetMapping(value = "/logout")
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        new SecurityContextLogoutHandler().logout(request, response, SecurityContextHolder.getContext().getAuthentication());
+        return "redirect:/login";
+    }
+
+
 }

@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Slf4j
 @Controller
-public class HelloController {
+@Slf4j
+public class ErrorController {
 
-    @GetMapping("/hello")
-    public String hello(){
-        return "index";
+    @GetMapping("/error/403")
+    public String dispDenied() {
+        return "/error/403";
     }
 }
