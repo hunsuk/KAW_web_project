@@ -5,7 +5,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import webProject.SIProject.dto.Front_main_DTO;
 import webProject.SIProject.dto.User_DTO;
 import webProject.SIProject.service.UserService;
 
@@ -20,7 +22,9 @@ public class UserController {
 
 
     @GetMapping("/")
-    public String goToPage(){
+    public String goToPage(Model model){
+        Front_main_DTO send_name = new Front_main_DTO("김현석");
+        model.addAttribute("info",send_name);
         return "main";
     }
 
