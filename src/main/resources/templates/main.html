@@ -15,7 +15,6 @@ ID : <span sec:authentication="name"></span> <br>
 소유 권한 : <span sec:authentication="authorities"></span> <br>
 <br>
 <form action="/publish_req", method="get">
-    <input type="hidden"  th:name="name" th:value = "${info.coname}"/>
     <button type="submit">발주 발행</button>
 </form>
 
