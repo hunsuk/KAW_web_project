@@ -4,7 +4,7 @@
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
-    <title>발주 발행</title>
+    <title>발주서 요청</title>
     <script>
         function all_check(id){
             const checkboxs = document.getElementsByName('selected');
@@ -45,7 +45,7 @@
 
 </head>
 <body>
-<div><a>발주 발행 페이지</a></div>
+<div><a>발주 발행 요청</a></div>
 
 <div><button type="submit" form = "requestSend">견적서 등록</button></div>
 <form action="/request_send" method="post" id="requestSend" name="requestSend">
@@ -92,6 +92,9 @@
                 </td>
             </tr>
         </table>
+        <a>유저의 견적문의 내용</a>
+        <p><textarea name="user_about" cols="50" rows="10" ></textarea></p>
+        <p><input type="submit" value="Submit"></p>
 </form>
 
 

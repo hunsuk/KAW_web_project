@@ -73,6 +73,15 @@ public class FunctionController {
         return "PalletRespond";
     }
 
+    @GetMapping("/prdicRequest")
+    public String prdicRequest(){
+        return "PrdicRequest";
+    }
+
+    @PostMapping("/prdicRequest_send")
+    public String predicRequest_send(){
+        return "PrdicRequestReturn";
+    }
 
     @GetMapping("/QnA")
     public String QnA(){
