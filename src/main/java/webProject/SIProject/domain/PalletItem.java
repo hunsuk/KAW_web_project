@@ -8,6 +8,7 @@ import lombok.Data;
 @Data
 @Entity
 @Getter
+@Setter
 public class PalletItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PALLET_ID")
