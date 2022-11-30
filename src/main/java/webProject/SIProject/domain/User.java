@@ -27,17 +27,43 @@ public class User implements UserDetails {
     @Column(name = "email", unique = true)
     private String email;
 
+    @Column(name = "phone", unique = true)
+    private String phone;
+
     @Column(name = "password")
     private String password;
 
     @Column(name = "auth")
     private String auth;
 
+    @Column(name = "corpName") //회사이름
+    private String corpName; //회사이름
+
+    @Column(name = "corpNumber") //사업자등록번호
+    private String corpNumber; //사업자등록번호
+
+    @Column(name = "managerName") //담당자이름
+    private String managerName; //담당자이름
+
+
+
+    @CreatedDate
+    private LocalDateTime createAt; // 생성시간
+
+    @LastModifiedDate
+    private LocalDateTime modifiedAt; // 최후로그인시간
+
+    //User = 1 : Order = many
+    @OneToMany(mappedBy = "User")
+    private List<Order> Orders = new ArrayList<Order>();
+
     @Builder
     public User(String email, String password, String auth) {
         this.email = email;
         this.password = password;
         this.auth = auth;
+        this.corpName = corpName;
+        this.managerName = managerName;
     }
 
     // 사용자의 권한을 콜렉션 형태로 반환
