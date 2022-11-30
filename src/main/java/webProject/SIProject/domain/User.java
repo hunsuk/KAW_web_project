@@ -39,13 +39,14 @@ public class User implements UserDetails {
     @Column(name = "corpName") //회사이름
     private String corpName; //회사이름
 
+    @Column(name = "location") //위치
+    private String location;
+
     @Column(name = "corpNumber") //사업자등록번호
     private String corpNumber; //사업자등록번호
 
     @Column(name = "managerName") //담당자이름
     private String managerName; //담당자이름
-
-
 
     @CreatedDate
     private LocalDateTime createAt; // 생성시간
