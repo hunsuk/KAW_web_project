@@ -14,6 +14,11 @@ public class Question {
     @Column(name = "QUESTION_ID")
     private Long id;
 
+    private String QTitle;
+
+    @Column(name = "QText", columnDefinition="BLOB")
+    private byte[] QText;
+
     //Question = 1 -> Answer = 1 
     //Question 단방향으로 Answer 정보 참조 가능.
     @OneToOne
