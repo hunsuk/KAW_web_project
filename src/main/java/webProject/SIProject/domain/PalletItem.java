@@ -1,4 +1,4 @@
-package webProject.SIProject.dto;
+package webProject.SIProject.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,12 +7,11 @@ import lombok.Data;
 
 @Data
 @Entity
+@Getter
 public class PalletItem {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PALLET_ID")
     private Long id;
-    private String count;
-    private String rent_day;
 
     private String category;
     private String standard_type = "-";

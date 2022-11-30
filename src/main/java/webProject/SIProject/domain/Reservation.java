@@ -1,4 +1,4 @@
-package webProject.SIProject.dto;
+package webProject.SIProject.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -7,6 +7,8 @@ import lombok.Data;
 
 @Data
 @Entity
+@Setter
+@Getter
 public class Reservation {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "RESERVATION_ID")
