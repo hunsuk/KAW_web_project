@@ -56,7 +56,15 @@ public class User implements UserDetails {
 
     //User = 1 : Order = many
     @OneToMany(mappedBy = "User")
-    private List<Order> Orders = new ArrayList<Order>();
+    private List<Order> orders = new ArrayList<Order>();
+
+    //User = 1 : Question = many
+    @OneToMany(mappedBy = "User")
+    private List<Question> questions = new ArrayList<Question>();
+
+    //User = 1 : Answer = many
+    @OneToMany(mappedBy = "User")
+    private List<Answer> answers = new ArrayList<Answer>();
 
     @Builder
     public User(String email, String password, String auth) {
