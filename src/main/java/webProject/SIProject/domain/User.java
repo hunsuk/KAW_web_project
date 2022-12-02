@@ -46,6 +46,10 @@ public class User implements UserDetails {
     @Column(name = "corpNumber") //사업자등록번호
     private String corpNumber; //사업자등록번호
 
+
+    @Column(name = "corpPhoneNumber") //회사전화번호
+    private String corpPhoneNumber; //회사전화번호
+
     @Column(name = "managerName") //담당자이름
     private String managerName; //담당자이름
 
@@ -57,7 +61,7 @@ public class User implements UserDetails {
 
     //User = 1 : Order = many
     @OneToMany(mappedBy = "user")
-    private List<Order> orders = new ArrayList<Order>();
+    private List<OrderList> orders = new ArrayList<OrderList>();
 
     //User = 1 : Question = many
     @OneToMany(mappedBy = "user")
@@ -67,29 +71,20 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Answer> answers = new ArrayList<Answer>();
 
-//    @Builder
-//    public User(String email,String phone, String password, String auth, String location, String corpNumber, String corpName, String managerName, LocalDateTime createAt,LocalDateTime modifiedAt) {
-//        this.email = email;
-//        this.phone = phone;
-//        this.password = password;
-//        this.auth = auth;
-//        this.location = location;
-//        this.corpNumber = corpNumber;
-//        this.corpName = corpName;
-//        this.managerName = managerName;
-//        this.createAt = createAt;
-//        this.modifiedAt = modifiedAt;
-
-
     @Builder
-    public User(String email, String password, String auth, String phone,String corpName, String location, String managerName) {
+    public User(String email,String phone, String password, String auth, String location, String corpNumber, String corpName, String managerName, LocalDateTime createAt,LocalDateTime modifiedAt) {
         this.email = email;
-        this.auth = auth;
+        this.phone = phone;
         this.password = password;
+        this.auth = auth;
+        this.location = location;
+        this.corpNumber = corpNumber;
         this.corpName = corpName;
         this.managerName = managerName;
-        this.location = location;
-        this.phone = phone;
+        this.createAt = createAt;
+        this.modifiedAt = modifiedAt;
+
+
     }
 
     // 사용자의 권한을 콜렉션 형태로 반환

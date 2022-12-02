@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import webProject.SIProject.domain.User;
 import webProject.SIProject.dto.User_DTO;
 import webProject.SIProject.repository.UserRepository;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 
 
 @RequiredArgsConstructor
@@ -38,6 +41,9 @@ public class UserService implements UserDetailsService {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         infoDto.setPassword(encoder.encode(infoDto.getPassword()));
         System.out.println("inside save");
+        // 현재 날짜 구하기 (시스템 시계, 시스템 타임존)
+        LocalDate now = LocalDate.now();
+
         return userRepository.save(User.builder()
                 .email(infoDto.getEmail())
                 .auth(infoDto.getAuth())
@@ -45,7 +51,10 @@ public class UserService implements UserDetailsService {
                 .phone(infoDto.getPhone())
                 .corpName(infoDto.getCorpName())
                 .managerName(infoDto.getManagerName())
-                .location(infoDto.getLocation())
+                .location(infoDto.getH_area1() + "-" + infoDto.getH_area2())
+                .corpNumber(infoDto.getCorpNumber())
+                .createAt(LocalDateTime.now())
+                .modifiedAt(LocalDateTime.now())
                 .build()).getCode();
     }
 }

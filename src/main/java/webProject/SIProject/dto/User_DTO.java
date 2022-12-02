@@ -10,7 +10,11 @@ public class User_DTO {
     private String auth;
     private String corpName;
     private String phone;
-    private String location;
+    private String h_area1;
+    private String h_area2;
+
     private String managerName;
+    private String corpNumber;
+    private String corpPhoneNumber;
 
 }
