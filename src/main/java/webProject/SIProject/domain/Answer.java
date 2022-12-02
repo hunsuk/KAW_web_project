@@ -2,6 +2,7 @@ package webProject.SIProject.domain;
 
 import javax.persistence.*;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,7 +15,7 @@ public class Answer {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ANSWER_ID")
     private Long id;
-
+    private String ATitle;
     @Column(name = "AText", columnDefinition="BLOB")
     private byte[] AText;
 

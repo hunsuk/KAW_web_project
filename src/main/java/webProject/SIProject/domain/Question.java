@@ -2,6 +2,7 @@ package webProject.SIProject.domain;
 
 import javax.persistence.*;
 
+import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -14,6 +15,7 @@ public class Question {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "QUESTION_ID")
     private Long id;
+    private String QTitle;
 
     @Column(name = "QText", columnDefinition="BLOB")
     private byte[] QText;
@@ -28,5 +30,6 @@ public class Question {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="code")
     private User user;
+
 
 }
