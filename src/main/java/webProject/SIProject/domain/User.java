@@ -56,15 +56,15 @@ public class User implements UserDetails {
     private LocalDateTime modifiedAt; // 최후로그인시간
 
     //User = 1 : Order = many
-    @OneToMany(mappedBy = "user")
-    private List<Order> orders = new ArrayList<Order>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval= true)
+    private List<OrderList> orderLists = new ArrayList<OrderList>();
 
     //User = 1 : Question = many
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval= true)
     private List<Question> questions = new ArrayList<Question>();
 
     //User = 1 : Answer = many
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval= true)
     private List<Answer> answers = new ArrayList<Answer>();
 
     @Builder

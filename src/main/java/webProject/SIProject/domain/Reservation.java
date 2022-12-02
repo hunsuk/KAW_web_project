@@ -28,7 +28,7 @@ public class Reservation {
     //Order = 1 : Reservation = many
     //Order하나에 여러개의 Reservation 정보 참조.
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="ORDER_ID")
-    private Order order;
+    @JoinColumn(name="ORDERLIST_ID")
+    private OrderList orderList;
     
 }
