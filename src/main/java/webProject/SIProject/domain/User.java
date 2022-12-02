@@ -56,15 +56,15 @@ public class User implements UserDetails {
     private LocalDateTime modifiedAt; // 최후로그인시간
 
     //User = 1 : Order = many
-    @OneToMany(mappedBy = "User")
+    @OneToMany(mappedBy = "user")
     private List<Order> orders = new ArrayList<Order>();
 
     //User = 1 : Question = many
-    @OneToMany(mappedBy = "User")
+    @OneToMany(mappedBy = "user")
     private List<Question> questions = new ArrayList<Question>();
 
     //User = 1 : Answer = many
-    @OneToMany(mappedBy = "User")
+    @OneToMany(mappedBy = "user")
     private List<Answer> answers = new ArrayList<Answer>();
 
     @Builder

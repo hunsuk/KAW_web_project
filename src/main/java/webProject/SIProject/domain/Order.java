@@ -26,6 +26,6 @@ public class Order {
 
 
     //Order = 1 : PalletItem = many
-    @OneToMany(mappedBy = "Order")
+    @OneToMany(mappedBy = "order")
     private List<Reservation> reservations = new ArrayList<Reservation>();
 }
