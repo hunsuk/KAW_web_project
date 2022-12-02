@@ -2,6 +2,8 @@ package webProject.SIProject.domain;
 
 
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -9,13 +11,12 @@ import org.springframework.security.core.userdetails.UserDetails;
 //import java.security.Timestamp;
 import javax.persistence.*;
 import java.sql.Timestamp;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.time.LocalDateTime;
+import java.util.*;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
-@Table(name="user")
+@Table(name="User")
 @Setter
 @Getter
 public class User implements UserDetails {
@@ -67,12 +68,17 @@ public class User implements UserDetails {
     private List<Answer> answers = new ArrayList<Answer>();
 
     @Builder
-    public User(String email, String password, String auth) {
+    public User(String email,String phone, String password, String auth, String location, String corpNumber, String corpName, String managerName, LocalDateTime createAt,LocalDateTime modifiedAt) {
         this.email = email;
+        this.phone = phone;
         this.password = password;
         this.auth = auth;
+        this.location = location;
+        this.corpNumber = corpNumber;
         this.corpName = corpName;
         this.managerName = managerName;
+        this.createAt = createAt;
+        this.modifiedAt = modifiedAt;
     }
 
     // 사용자의 권한을 콜렉션 형태로 반환
