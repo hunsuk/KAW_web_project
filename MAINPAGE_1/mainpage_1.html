@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:th="www.thymeleaf.org">
+<head>
+    <title>main</title>
+    <meta http-equiv="Content-Type"content="text/html;charset=utf-8"/>
+    <link rel="stylesheet" href="mainpage_1.css">
+</head>
+
+
+<body>
+    <div class="nav">
+        <h2 >사용자 전용 페이지</h2>
+    <div class="nav_but">
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <button sec:authorize="hasRole('ADMIN')"type="submit" onclick="location.href='/admin'">관리자 페이지로 가기</button>
+        <br>
+        <f id="logout" action="/logout" method="POST">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <input type="submit" value="로그아웃"/>
+            <br></f>
+            <br>
+        ID : <span sec:authentication="name"></span> <br>
+        소유 권한 : <span sec:authentication="authorities"></span> <br>
+        <br>
+    </div>
+    </div>
+
+<section class="intro">
+    <div class="card">
+        <form action="/publish_req", method="get">
+            <input type="hidden"  th:name="name" th:value = "${info.coname}"/>
+            <button type="submit">발주 발행</button>
+        </form>    
+    </div>
+    <div class="card">
+        <button type="submit" onclick="location.href='/QnA'">QnA</button>
+    </div>
+    <div class="card">
+        <button type="submit" onclick="location.href='/FS'">제무제표</button>
+    </div>
+    <div class="card">
+        <button type="submit" onclick="location.href='/prediction_user'">AI 예측 페이지</button>
+    </div>
+</section>
+</body>
+</html>
