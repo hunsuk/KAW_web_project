@@ -37,10 +37,15 @@ public class UserService implements UserDetailsService {
     public Long save(User_DTO infoDto) {
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         infoDto.setPassword(encoder.encode(infoDto.getPassword()));
-
+        System.out.println("inside save");
         return userRepository.save(User.builder()
                 .email(infoDto.getEmail())
                 .auth(infoDto.getAuth())
-                .password(infoDto.getPassword()).build()).getCode();
+                .password(infoDto.getPassword())
+                .phone(infoDto.getPhone())
+                .corpName(infoDto.getCorpName())
+                .managerName(infoDto.getManagerName())
+                .location(infoDto.getLocation())
+                .build()).getCode();
     }
 }

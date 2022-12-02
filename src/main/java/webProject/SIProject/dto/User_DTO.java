@@ -1,12 +1,16 @@
 package webProject.SIProject.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
-@Getter
-@Setter
+@Data
+@NoArgsConstructor
 public class User_DTO {
     private String email;
     private String password;
     private String auth;
+    private String corpName;
+    private String phone;
+    private String location;
+    private String managerName;
+
 }

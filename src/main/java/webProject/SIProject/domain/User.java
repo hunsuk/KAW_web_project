@@ -67,18 +67,29 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private List<Answer> answers = new ArrayList<Answer>();
 
+//    @Builder
+//    public User(String email,String phone, String password, String auth, String location, String corpNumber, String corpName, String managerName, LocalDateTime createAt,LocalDateTime modifiedAt) {
+//        this.email = email;
+//        this.phone = phone;
+//        this.password = password;
+//        this.auth = auth;
+//        this.location = location;
+//        this.corpNumber = corpNumber;
+//        this.corpName = corpName;
+//        this.managerName = managerName;
+//        this.createAt = createAt;
+//        this.modifiedAt = modifiedAt;
+
+
     @Builder
-    public User(String email,String phone, String password, String auth, String location, String corpNumber, String corpName, String managerName, LocalDateTime createAt,LocalDateTime modifiedAt) {
+    public User(String email, String password, String auth, String phone,String corpName, String location, String managerName) {
         this.email = email;
-        this.phone = phone;
-        this.password = password;
         this.auth = auth;
-        this.location = location;
-        this.corpNumber = corpNumber;
+        this.password = password;
         this.corpName = corpName;
         this.managerName = managerName;
-        this.createAt = createAt;
-        this.modifiedAt = modifiedAt;
+        this.location = location;
+        this.phone = phone;
     }
 
     // 사용자의 권한을 콜렉션 형태로 반환

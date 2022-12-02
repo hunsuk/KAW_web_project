@@ -2,19 +2,54 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
   <meta charset="UTF-8">
-  <title>sign up</title>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="signup_1.css">
+  <title>회원가입</title>
 </head>
 <body>
 <h1>Sign Up</h1> <hr>
 
-<form th:action="@{/user}" method="POST">
-  id : <input type="text" name="email"> <br>
-  password : <input type="password" name="password"> <br>
-  <input type="radio" name="auth" value="ROLE_ADMIN,ROLE_USER"> admin
-  <input type="radio" name="auth" value="ROLE_USER" checked="checked"> user <br>
-  <button type="submit">Join</button>
-</form> <br>
+<div class="container">
+  <div class="login-box">
+    <form class="login" th:action="@{/user}" method="POST">
+      <div class="user-icon">
+        <i class="far fa-user"></i>
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="법인명(필수)" id="username" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="담당자명(필수)" id="username" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="사업자등록번호" id="username" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="휴대전화번호(필수)" id="username" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="text" placeholder="회사전화번호" id="username" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="email" placeholder="이메일" id="username" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="비밀번호(필수)" id="password" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="password" placeholder="비밀번호 재확인(필수)" id="password" class="form-control">
+      </div>
+      <div class="form-group">
+        <input type="radio" name="auth" value="ROLE_ADMIN,ROLE_USER"> admin
+        <input type="radio" name="auth" value="ROLE_USER" checked="checked"> user <br>
+        <button class="full-btn" type="submit">등록</button>
+      </div>
+    </form>
+  </div>
+</div>
 
-<a href="/login">Go to login →</a>
+<a href="/login">로그인 페이지로 돌아가기</a>
 </body>
 </html>

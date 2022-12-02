@@ -29,3 +29,4 @@ public class Order {
     @OneToMany(mappedBy = "order")
     private List<Reservation> reservations = new ArrayList<Reservation>();
 }
+
