@@ -8,5 +8,9 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     Optional<Reservation> findByOrderList_Id(Long id);
 
+    Optional<Reservation> findByPalletItem_CategoryAndPalletItem_Standard_type(String category, String standard_type);
+
+
+
 
 }

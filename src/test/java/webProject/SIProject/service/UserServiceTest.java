@@ -25,7 +25,6 @@ class UserServiceTest {
         userDto.setPhone("010-2103-3096");
         userDto.setCorpName("한일상사");
         userDto.setPassword("1234");
-        userDto.setLocation("경기도 고양시 덕양구 577-1");
         userDto.setManagerName("김현석");
         System.out.print(userDto);
         userService.save(userDto);
