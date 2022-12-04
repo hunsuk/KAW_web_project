@@ -25,3 +25,4 @@ public class PalletItem {
     private String front_type;
 
 }
+

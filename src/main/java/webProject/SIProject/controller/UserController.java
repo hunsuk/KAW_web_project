@@ -49,6 +49,7 @@ public class UserController {
 
     @PostMapping("/user")
     public String signup(User_DTO infoDto) { // 회원 추가
+        log.info(infoDto.toString());
         userService.save(infoDto);
         return "redirect:/login";
     }
