@@ -9,5 +9,7 @@ public interface OrderRepository extends JpaRepository<OrderList, Long> {
 
     Optional<OrderList> findByUser_Email(String email);
 
+    Optional<OrderList> findByUser_OrderLists_Id(Long id);
+
 
 }

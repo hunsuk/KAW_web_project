@@ -2,10 +2,8 @@ package webProject.SIProject.domain;
 
 import javax.persistence.*;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
+import org.springframework.beans.BeanUtils;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 
@@ -17,6 +15,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
 public class OrderList {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDERLIST_ID")
@@ -31,5 +30,15 @@ public class OrderList {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="code")
     private User user;
+
+    @Builder
+    public OrderList(String status) {
+        this.status = status;
+    }
+
+    public void addReservation(Reservation reservation) {
+        this.reservations.add(reservation);
+    }
+
 
 }
