@@ -31,6 +31,8 @@ public class UserController {
 
     @GetMapping("/login")
     public String loginPage(){
+        //로그인 할 때 마다 timestamp 추가
+
         return "login";
     }
 
