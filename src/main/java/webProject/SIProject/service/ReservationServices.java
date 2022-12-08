@@ -17,8 +17,8 @@ public class ReservationServices {
 
 
     @Transactional
-    public void save(long ORDERLIST_ID, Reservation_DTO infoDto) {
-        OrderList orderList = orderRepository.findByUser_OrderLists_Id(ORDERLIST_ID)
+    public void save(String status, Reservation_DTO infoDto) {
+        OrderList orderList = orderRepository.findByStatus(status)
                 .orElseThrow(IllegalArgumentException::new);
         int len = infoDto.getSelected().length;
         int i;
@@ -33,5 +33,6 @@ public class ReservationServices {
                     .standardPallet(selected)
                     .build());
         }
+        orderList.setStatus("sent");
     }
 }
