@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Render Templates Example</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+    <h1>user reuslt page</h1>
+    <h1>Excel file upload (csv, tsv, csvz, tsvz only)</h1>
+    <form method="get" action="/pridict_respons_file">
+        <button type="submit">입력 포멧 다운로드</button>
+    </form>
+    
+    <form action="" method=post enctype=multipart/form-data>
+        <p>기업 이름 입력 : <input type="text" name="Coname"></p>
+        
+        <p><input type=file name=file><input type=submit value=Upload></p>
+    </form>
+</body>
+
+</html>
