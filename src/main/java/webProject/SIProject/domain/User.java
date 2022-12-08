@@ -133,7 +133,4 @@ public class User implements UserDetails {
         return true; // true -> 사용 가능
     }
 
-    public void addOrder(OrderList order) {
-        this.orderLists.add(order);
-    }
 }

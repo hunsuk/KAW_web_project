@@ -1,7 +1,6 @@
 package webProject.SIProject.domain;
 
 import javax.persistence.*;
-import org.springframework.beans.BeanUtils;
 import lombok.*;
 
 @Data
@@ -20,9 +19,10 @@ public class Reservation {
 
     //Reservation = 1 -> PalletItem = 1 
     //Reservation이 단방향으로 PalletItem 정보 참조 가능.
-    @OneToOne
+    /*@OneToOne
     @JoinColumn(name="PALLET_ID")
-    private PalletItem palletItem;
+    private PalletItem palletItem;*/
+    private String standardPallet;
 
     //Order = 1 : Reservation = many
     //Order하나에 여러개의 Reservation 정보 참조.
@@ -31,9 +31,11 @@ public class Reservation {
     private OrderList orderList;
 
     @Builder
-    public Reservation(String count, String rent_day) {
+    public Reservation(String count, String rent_day, OrderList orderList,String standardPallet) {
         this.count = count;
         this.rent_day = rent_day;
+        this.orderList = orderList;
+        this.standardPallet = standardPallet;
     }
 
 }

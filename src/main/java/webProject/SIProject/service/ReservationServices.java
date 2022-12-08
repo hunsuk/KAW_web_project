@@ -4,21 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import webProject.SIProject.domain.OrderList;
-import webProject.SIProject.domain.User;
 import webProject.SIProject.dto.Reservation_DTO;
 import webProject.SIProject.domain.Reservation;
-import webProject.SIProject.dto.User_DTO;
 import webProject.SIProject.repository.OrderRepository;
 import webProject.SIProject.repository.ReservationRepository;
-
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
 @Service
 public class ReservationServices {
     private final ReservationRepository reservationRepository;
     private final OrderRepository orderRepository;
+
 
     @Transactional
     public void save(long ORDERLIST_ID, Reservation_DTO infoDto) {
@@ -29,9 +25,12 @@ public class ReservationServices {
         for(i = 0; i < len; i++) {
             String countDto = infoDto.getCount()[i];
             String rentDay = infoDto.getRant_day()[i];
-            orderList.addReservation(Reservation.builder()
+            String selected = infoDto.getSelected()[i];
+            reservationRepository.save(Reservation.builder()
                     .count(countDto)
                     .rent_day(rentDay)
+                    .orderList(orderList)
+                    .standardPallet(selected)
                     .build());
         }
     }

@@ -32,7 +32,11 @@ public class OrderServices {
         }else{
             User user = userRepository.findByEmail(email)
                     .orElseThrow(IllegalArgumentException::new);
-            user.addOrder(OrderList.builder().status("ing").build());
+            orderRepository.save(OrderList.builder()
+                    .status("ing")
+                    .user(user)
+                    .build());
+            //user.addOrder((orderList.builder().status("ing").user(code)).build());
         }
     }
     private boolean isStringEmpty(String str) {

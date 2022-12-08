@@ -32,13 +32,14 @@ public class OrderList {
     private User user;
 
     @Builder
-    public OrderList(String status) {
+    public OrderList(String status,User user) {
         this.status = status;
+        this.user = user;
     }
 
-    public void addReservation(Reservation reservation) {
-        this.reservations.add(reservation);
-    }
+    //public void addReservation(Reservation reservation) {
+        //this.reservations.add(reservation);
+    //}
 
 
 }
