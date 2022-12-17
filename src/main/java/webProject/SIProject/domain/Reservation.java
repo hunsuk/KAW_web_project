@@ -18,11 +18,6 @@ public class Reservation {
     private String standardPallet;
     private String userAbout;
 
-    //Reservation = 1 -> PalletItem = 1 
-    //Reservation이 단방향으로 PalletItem 정보 참조 가능.
-    @OneToOne
-    @JoinColumn(name="PALLET_ID")
-    private PalletItem palletItem;
 
     //Order = 1 : Reservation = many
     //Order하나에 여러개의 Reservation 정보 참조.
