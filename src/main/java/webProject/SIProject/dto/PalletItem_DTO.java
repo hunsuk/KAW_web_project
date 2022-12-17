@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PalletItem_DTO {
     private String category;
-    private String standard_type = "-";
+    private String standard = "-";
     private String size;
     private String weight;
     private String material;

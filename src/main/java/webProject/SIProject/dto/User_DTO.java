@@ -17,4 +17,5 @@ public class User_DTO {
     private String corpNumber;
     private String corpPhoneNumber;
 
+
 }

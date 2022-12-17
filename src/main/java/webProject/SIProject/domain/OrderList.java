@@ -6,10 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,18 +15,27 @@ import java.util.List;
 @Setter
 @Getter
 public class OrderList {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ORDERLIST_ID")
     private Long id;
     private String status;
-
     //Order = 1 : reservations = many
-    @OneToMany(mappedBy = "orderList", cascade = CascadeType.ALL, orphanRemoval= true)
+    @OneToMany(mappedBy = "orderList", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<Reservation>();
 
     //User = 1 : Order = many
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="code")
+    @JoinColumn(name = "code")
     private User user;
 
+    @Builder
+    public OrderList(String status,User user) {
+        this.status = status;
+        this.user = user;
+    }
+
+    public void addReservation(Reservation reservation) {
+        this.reservations.add(reservation);
+    }
 }
