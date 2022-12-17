@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>발주 발행</title>
+    <script>
+        const urlParams = new URL(location.href).searchParams;
+        const name = urlParams.get('name');
+        document.getElementById("coname").value = name
+        console.log(name)
+    </script>
+</head>
+<body>
+<a>발주 발행 페이지</a>
+<form method="get" action="/request_file">
+    <button type="submit">입력 포멧 다운로드</button>
+</form>
+
+<form action="" method=post enctype=multipart/form-data>
+    <p>기업 이름 입력 : <input type="text" name="Coname" id="coname"></p>
+    <p><input type=file name=file ><input type=submit value=Upload></p>
+</form>
+
+</body>
+</html>

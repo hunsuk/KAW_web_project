@@ -1,0 +1,14 @@
+import pandas as pd
+import time
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+import glob
+
+
+user = '삼성전자'
+filepath = glob.glob('**/*'+user+'.csv', recursive=True)
+cofile = pd.read_csv(filepath[0])
+cofile
+
+plt.plot(cofile[0],cofile[1])   
+plt.savefig('/new_plot.png')
