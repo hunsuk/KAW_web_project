@@ -3,7 +3,12 @@ from user_info import MyEmpDao
 import pandas as pd
 import time
 from flask_cors import CORS
-
+import matplotlib.pyplot as plt
+from matplotlib.figure import Figure
+import glob
+import os
+from io import BytesIO, StringIO
+import base64
 
 app = Flask(__name__)
 app.config['JSON_AS_ASCII'] = False
@@ -49,6 +54,50 @@ def csv_file_download_with_request_file():
                      attachment_filename='downloaded_forMatFile_name.csv',# 다운받아지는 파일 이름. 
                      as_attachment=True)
 
+
+@app.route('/predict')
+def predict():
+    user = '기아'
+    if request.args.get('user') != None and request.args.get('user') != '':
+        user = request.args.get('user')
+        gcwd = os.getcwd()
+        filepath = glob.glob(gcwd+'/coname_graph/*'+user+'.csv')
+        cofile = pd.read_csv(filepath[0])
+        newcolumns = ['quarter','revenue','income','profit']
+        cofile = cofile.values.tolist()
+        ndf = pd.DataFrame(cofile, columns=newcolumns)
+
+        ndfQ = ndf[ndf['quarter'].str.contains('Q')]
+        ndfE = ndf[ndf['quarter'].str.contains('E')]
+
+        plt.subplots(constrained_layout=True)
+
+        plt.subplot(221)
+        plt.title('Quarter revenue')
+        plt.plot(ndfQ['quarter'],ndfQ['revenue'],'g')
+        plt.xticks(rotation=90,fontsize=6.5)
+
+        plt.subplot(222)
+        plt.title('Yearly revenue')
+        plt.plot(ndfE['quarter'],ndfE['revenue'],'g')
+        plt.xticks(fontsize=6.5)
+
+        plt.subplot(223)
+        plt.title('Quarter income, profit')
+        plt.plot(ndfQ['quarter'],ndfQ['income'])
+        plt.plot(ndfQ['quarter'],ndfQ['profit'])
+        plt.xticks(rotation=90,fontsize=6.5)
+
+        plt.subplot(224)
+        plt.title('Yearly income, profit')
+        plt.plot(ndfE['quarter'],ndfE['income'])
+        plt.plot(ndfE['quarter'],ndfE['profit'])
+        plt.xticks(fontsize=6.5)
+
+        plt.savefig(gcwd+'/static/graphs/'+user+'.png')
+        return render_template('statics.html', name = user, image_file = 'graphs/'+user+'.png')
+    else:
+        return render_template('page_not_found.html'), 404
 
 #파레트 발주 페이지 및 발주 넣기
 @app.route('/request_palette',methods=['GET','POST'])
