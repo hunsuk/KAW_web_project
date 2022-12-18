@@ -12,22 +12,17 @@ public interface OrderRepository extends JpaRepository<OrderList, Long> {
 
     Optional<OrderList> findByUser_Email(String email);
 
-    Optional<OrderList> findByUser_OrderLists_Id(Long id);
-
     Optional<OrderList> findByStatus(String status);
 
     Optional<OrderList> findByStatusAndUser_Email(String status, String email);
 
+    Optional<OrderList> findByIdAndUser_Email(Long id, String email);
+
+
     long deleteByStatus(String status);
 
-    long deleteByStatusAndUser(String status, User user);
+    long deleteByIdAndUser(Long id, User user);
 
-
-
-
-
-
-
-
-
+    @Override
+    Optional<OrderList> findById(Long aLong);
 }

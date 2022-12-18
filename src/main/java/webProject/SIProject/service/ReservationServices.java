@@ -41,10 +41,41 @@ public class ReservationServices {
         orderList.setStatus("sent");
     }
 
+    //orderid 기반으로 찾고 딸린 reservation들 전부 삭제 후 dto로부터 읽어와서 재 저장
+    @Transactional
+    public void update(Long orderid, String toStatus, Reservation_DTO infoDto) {
+        OrderList orderList = orderRepository.findById(orderid)
+                .orElseThrow(IllegalArgumentException::new);
+        int len = infoDto.getSelected().length;
+        int i;
+        for(i = 0; i < len; i++) {
+            reservationRepository.deleteByOrderList(orderList);
+            String countDto = infoDto.getCount()[i];
+            String rentDay = infoDto.getRant_day()[i];
+            String selected = infoDto.getSelected()[i];
+            reservationRepository.save(Reservation.builder()
+                    .count(countDto)
+                    .rent_day(rentDay)
+                    .orderList(orderList)
+                    .standardPallet(selected)
+                    .userAbout(infoDto.getUserAbout())
+                    .build());
+        }
+        orderList.setStatus(toStatus);
+    }
+
     // email status standardPallet 받아서 각각 reservation 삭제
     @Transactional
     public void delete(String email, String status, String standardPallet){
         OrderList orderList = orderRepository.findByStatusAndUser_Email(email,status)
+                .orElseThrow(IllegalArgumentException::new);
+        reservationRepository.deleteByOrderListAndStandardPallet(orderList,standardPallet);
+    }
+
+    // orderid standardPallet받아서 삭제
+    @Transactional
+    public void delete(Long orderid, String standardPallet){
+        OrderList orderList = orderRepository.findById(orderid)
                 .orElseThrow(IllegalArgumentException::new);
         reservationRepository.deleteByOrderListAndStandardPallet(orderList,standardPallet);
     }

@@ -39,15 +39,28 @@ public class OrderServices {
                     .build());
         }
     }
+
+    //orderList 상태 바꾸는 함수
+    @Transactional
+    public void update(Long orderid, String email, String toChange) {
+        OrderList orderList = orderRepository.findById(orderid)
+                .orElseThrow(IllegalArgumentException::new);
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(IllegalArgumentException::new);
+        orderRepository.save(orderList.builder()
+                        .status(toChange)
+                        .user(user)
+                        .build());
+    }
     private boolean isStringEmpty(String str) {
         return str == null || str.isEmpty();
     }
 
     @Transactional
-    public void delete(String email, String status){
+    public void delete(Long orderid, String email){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(IllegalArgumentException::new);
-        orderRepository.deleteByStatusAndUser(status,user);
+        orderRepository.deleteByIdAndUser(orderid,user);
     }
 
     // email에 기반한 Order과 Reservation 찾기
@@ -59,10 +72,14 @@ public class OrderServices {
         return reservations;
     }
 
+    //email과 status에 기반한 Order와 Reservation 찾기
     public List<Reservation> read(String email, String status){
         OrderList orderList = orderRepository.findByStatusAndUser_Email(status,email)
                 .orElseThrow(IllegalArgumentException::new);
         List<Reservation> reservations = orderList.getReservations();
         return reservations;
     }
+
+
+
 }

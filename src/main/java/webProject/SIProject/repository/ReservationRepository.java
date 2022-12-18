@@ -10,6 +10,9 @@ import java.util.Optional;
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     Optional<Reservation> findByOrderList_Id(Long id);
 
+    Optional<Reservation> findByStandardPalletAndOrderList_Id(String standardPallet, Long id);
+
+    long deleteByOrderList(OrderList orderList);
 
     long deleteByOrderListAndStandardPallet(OrderList orderList, String standardPallet);
 
