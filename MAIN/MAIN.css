@@ -1,0 +1,215 @@
+main {
+    background: #f2f4f7;
+    min-height: 700px;
+  }
+
+  header {
+    margin: auto; /* header의 양쪽 여백(margin)을 동등하게 맞춤 -> 수평가운데정렬 */
+    width: 1080px;
+    height: 215px;
+    display: flex;
+    align-items: center; /* 하위 요소들 수직 가운데정렬 */
+    position: relative;
+  }
+  fieldset {
+    border: none; /* 기본 border 없애기(이 코드를 지우고 기본 border를 확인해보세요) */
+  }
+  .visually-hidden {
+    position: absolute !important;
+    height: 1px;
+    width: 1px;
+    overflow: hidden;
+    clip: rect(1px 1px 1px 1px);
+    clip: rect(1px, 1px, 1px, 1px);
+    white-space: nowrap;
+  }
+  .links {
+    /* 링크들을 상단 우측에 위치시킵니다. */
+    position: absolute;
+    top: 0;
+    right: 0;
+  }
+  .links .link_text {
+    font-size: 12px;
+    margin-left: 5px;
+  }
+  .img_logo {
+    margin-bottom: 12px;
+    width: 220px;
+    height: 65px;
+  }
+  .search_box {
+    width: 400px;
+    height: 50px;
+    border: 2px solid #C1303B;
+    display: flex;
+    align-items: right;
+  }
+
+  .search_box input {
+    flex: 9; /* search-box내부에서 9만큼의 크기를 차지(비율) */
+    height: 46px;
+    padding-left: 12px;
+    padding-right: 12px;
+    border: none;
+    outline: none;
+    font-size: 18px;
+  }
+  .search_box button {
+    flex: 1; /* search-box내부에서 1만큼의 크기를 차지(비율) */
+    height: 46px;
+    margin: 0;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: #C1303B;
+    color: #ffffff;
+  }
+  /* nav */
+  header > nav {
+    width: 100%;
+    height: 45px;
+    position: absolute;
+    bottom: 0;
+  }
+  .nav_items {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 15px;
+    font-weight: bold;
+    border-top: 1px solid #f1f3f6;
+  }
+  .keyword {
+    width: 200px;
+  }
+  .nav_items ul > li {
+    display: inline-block;
+    margin-left: 8px;
+  }
+  .nav_items ul > li:nth-child(-n + 7) > a {
+    /* <ul>하위 7번째 <li>까지 각각 내부의 <a> 태그 접근 */
+    color: #C1303B;
+  }
+  .nav_items ul > li > a {
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  body {
+    margin: 0;
+    font-family: sans-serif;
+  }
+  a {
+    text-decoration: none;
+    color: #888;
+  }
+  a:hover {
+    text-decoration: underline;
+  }
+  ul {
+    margin: 0;
+    padding: 0;
+  }
+  * {
+    box-sizing: border-box; /* 길이 계산을 편하게 하기위함. box-sizing에 관한 설명은 아래 링크를 참고해주세요 */
+  }
+  /* 재사용 클래스 */
+  .color_naver {
+    color: #C1303B;
+  }
+  .text_bold-13 {
+    font-weight: bold;
+    font-size: 13px;
+  }
+
+  footer {
+    width: 1080px;
+    height: 310px;
+    margin: auto;
+    padding: 0 8px 0 8px; /* 각각 위 오른쪽 아래 왼쪽 */
+    display: flex;
+    flex-direction: column; /* 요소들을 수평정렬 */
+    font-size: 12px;
+  }
+  .notice_box {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #f1f3f6;
+  }
+  .notice_box a {
+    font-weight: bold;
+    color: black;
+  }
+  .aside_box {
+    flex: 2;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #f1f3f6;
+  }
+  .area_user {
+    flex: 4;
+    line-height: 2em; /* 줄간격 */
+  }
+  .area_user_row {
+    display: flex;
+  }
+  .area_user_row span {
+    flex: 1;
+  }
+  .area_user_row ul {
+    flex: 6;
+  }
+  .aur_title {
+    font-size: 13px;
+    font-weight: bold;
+  }
+  .area_user_row ul > li {
+    display: inline-block; /* li 수평정렬하는 방법 */
+    margin-left: 8px;
+  }
+  .area_col {
+    flex: 1;
+    display: flex;
+  }
+  .area_col .ac_content {
+    line-height: 20px;
+  }
+  .area_col .ac_img {
+    width: 60px;
+    height: 60px;
+  }
+  .bottom_box {
+    flex: 3;
+    padding-top: 20px;
+    font-size: 14px;
+  }
+  .bottom_box ul > li {
+    display: inline-block; /* 수평정렬 */
+    margin-left: 8px;
+  }
+  .bottom_box ul > li:last-child {
+    /* 마지막 li요소 (Naver Corp.) 굵게 */
+    font-weight: bold;
+  }
+
+
+  button{
+    outline: none;
+    background: #d21735;
+    color: #FFF;
+    padding: 16px;
+    display: block;
+    width: 100%;
+    border:none;
+    text-transform: uppercase;
+    font-size: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    align-items: center;
+    justify-content: center;
+}
