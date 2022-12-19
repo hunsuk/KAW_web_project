@@ -73,11 +73,20 @@ public class OrderServices {
         return str == null || str.isEmpty();
     }
 
+    //유저 특정장부 제거(reservation까지 지워짐)
     @Transactional
     public void delete(Long orderid, String email){
         User user = userRepository.findByEmail(email)
                 .orElseThrow(IllegalArgumentException::new);
         orderRepository.deleteByIdAndUser(orderid,user);
+    }
+
+    //유저관련 장부 전부제거
+    @Transactional
+    public void deleteAll(String email){
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(IllegalArgumentException::new);
+        orderRepository.deleteByUser(user);
     }
 
     // email에 연관된 기반한 Order 모두찾기
@@ -86,12 +95,18 @@ public class OrderServices {
         return orderList;
     }
 
-    // email의 유일한 ing 주문 찾기.
+    // email의 status 주문 찾기. ing의 경우 여러개면 0번째인 ing만 반환하고 전부 제거.
     public OrderList read(String email,String status){
-        Optional<OrderList> orderList = orderRepository.findByStatusAndUser_Email(status,email);
+        List<OrderList> orderList = orderRepository.findByUser_EmailAndStatus(email,status);
+        Iterator<OrderList> lorderlist = orderList.iterator();
         OrderList ord = null;
-        if(orderList.isPresent()){
-            ord = orderList.get();
+        if(lorderlist.hasNext()){
+            ord = lorderlist.next();
+        }
+        if(status == "ing"){
+            while(lorderlist.hasNext()){
+                orderRepository.deleteById(lorderlist.next().getId());
+            }
         }
         return ord;
     }

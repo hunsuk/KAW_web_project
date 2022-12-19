@@ -100,6 +100,7 @@ public class ReservationServices {
         if (orderList.isPresent()) {
             OrderList ord = orderList.get();
             reservation = reservationRepository.findByOrderList(ord);
+            System.out.println("성공함");
         }
         return reservation;
     }

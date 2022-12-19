@@ -55,13 +55,13 @@ class orderServiceTest {
 
         orderServices.update(i,"daw564@naver.com","ok");
 
-        orderServices.delete(i,"daw564@naver.com");
+        //orderServices.delete(i,"daw564@naver.com");
 
         reservationServices.read(i);
 
         orderServices.read("daw564@naver.com");
 
-        orderServices.read("daw564@naver.com", "ing");
+        orderServices.read("daw564@naver.com", "ok");
 
 
     }

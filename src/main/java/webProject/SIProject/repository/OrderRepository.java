@@ -10,11 +10,15 @@ import java.util.List;
 import java.util.Optional;
 
 public interface OrderRepository extends JpaRepository<OrderList, Long> {
-
+    List<OrderList> findByUser_EmailAndStatus(String email, String status);
 
     List<OrderList> findByUser_Email(String email);
 
+
+
     Optional<OrderList> findByStatus(String status);
+
+    boolean existsByUser_Email(String email);
 
     Optional<OrderList> findByStatusAndUser_Email(String status, String email);
 
@@ -22,6 +26,10 @@ public interface OrderRepository extends JpaRepository<OrderList, Long> {
 
 
     long deleteByStatus(String status);
+
+    long deleteByUser(User user);
+
+
 
     long deleteByIdAndUser(Long id, User user);
 
