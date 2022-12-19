@@ -18,11 +18,11 @@ public class ReservationServices {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public void save(String status, Reservation_DTO infoDto) {
+    public void save(String email, String status, Reservation_DTO infoDto) {
         if(status != "ing") {
             return;
         }
-        OrderList orderList = orderRepository.findByStatus(status)
+        OrderList orderList = orderRepository.findByStatusAndUser_Email(email,status)
                 .orElseThrow(IllegalArgumentException::new);
         int len = infoDto.getSelected().length;
         int i;
