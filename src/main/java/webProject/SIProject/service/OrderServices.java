@@ -88,9 +88,12 @@ public class OrderServices {
 
     // email의 유일한 ing 주문 찾기.
     public OrderList read(String email,String status){
-        OrderList orderList = orderRepository.findByStatusAndUser_Email(status,email)
-                .orElseThrow(IllegalArgumentException::new);
-        return orderList;
+        Optional<OrderList> orderList = orderRepository.findByStatusAndUser_Email(status,email);
+        OrderList ord = null;
+        if(orderList.isPresent()){
+            ord = orderList.get();
+        }
+        return ord;
     }
 
 }
