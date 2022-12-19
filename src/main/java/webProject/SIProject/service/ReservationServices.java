@@ -10,6 +10,10 @@ import webProject.SIProject.repository.OrderRepository;
 import webProject.SIProject.repository.ReservationRepository;
 
 import javax.transaction.Transactional;
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -40,6 +44,8 @@ public class ReservationServices {
                         .build());
             }
             orderLists.setStatus("sent");
+            String req = infoDto.getUserabout();
+            orderLists.setRequest(req.getBytes(StandardCharsets.UTF_8));
         }
     }
 
@@ -63,6 +69,8 @@ public class ReservationServices {
                     .build());
         }
         orderList.setStatus(toStatus);
+        String req = infoDto.getUserabout();
+        orderList.setRequest(req.getBytes(StandardCharsets.UTF_8));
     }
 
     // email status standardPallet 받아서 각각 reservation 삭제
@@ -79,5 +87,16 @@ public class ReservationServices {
         OrderList orderList = orderRepository.findById(orderid)
                 .orElseThrow(IllegalArgumentException::new);
         reservationRepository.deleteByOrderListAndStandardPallet(orderList,standardPallet);
+    }
+
+    //Order ID 기반 찾기
+    public List<Reservation> read(Long orderId) {
+        List<Reservation> reservation = null;
+        Optional<OrderList> orderList = orderRepository.findById(orderId);
+        if (orderList.isPresent()) {
+            OrderList ord = orderList.get();
+            reservation = reservationRepository.findByOrderList(ord);
+        }
+        return reservation;
     }
 }

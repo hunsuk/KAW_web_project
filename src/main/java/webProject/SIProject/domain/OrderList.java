@@ -18,6 +18,10 @@ public class OrderList {
     @Column(name = "ORDERLIST_ID")
     private Long id;
     private String status;
+
+    @Column(name = "RText", columnDefinition="BLOB")
+    private byte[] request;
+
     //Order = 1 : reservations = many
     @OneToMany(mappedBy = "orderList", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Reservation> reservations = new ArrayList<Reservation>();

@@ -59,6 +59,7 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval= true)
     private List<OrderList> orderLists = new ArrayList<OrderList>();
 
+    /*
     //User = 1 : Question = many
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval= true)
     private List<Question> questions = new ArrayList<Question>();
@@ -66,7 +67,7 @@ public class User implements UserDetails {
     //User = 1 : Answer = many
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval= true)
     private List<Answer> answers = new ArrayList<Answer>();
-
+     */
     @Builder
     public User(String email,String phone, String password, String auth, String location, String corpNumber, String corpName, String managerName, LocalDateTime createAt,LocalDateTime modifiedAt) {
         this.email = email;
@@ -133,7 +134,4 @@ public class User implements UserDetails {
         return true; // true -> 사용 가능
     }
 
-    public void addOrder(OrderList order) {
-        this.orderLists.add(order);
-    }
 }

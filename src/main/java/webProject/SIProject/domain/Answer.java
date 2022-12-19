@@ -1,3 +1,4 @@
+/*
 package webProject.SIProject.domain;
 
 import javax.persistence.*;
@@ -25,3 +26,4 @@ public class Answer {
     private User user;
 
 }
+*/

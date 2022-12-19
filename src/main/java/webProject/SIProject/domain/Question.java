@@ -1,3 +1,4 @@
+/*
 package webProject.SIProject.domain;
 
 import javax.persistence.*;
@@ -6,6 +7,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+
 
 @Data
 @Entity
@@ -33,3 +35,4 @@ public class Question {
 
 
 }
+*/

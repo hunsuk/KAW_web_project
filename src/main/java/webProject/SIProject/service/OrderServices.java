@@ -7,11 +7,14 @@ import org.springframework.transaction.annotation.Transactional;
 import webProject.SIProject.domain.OrderList;
 import webProject.SIProject.domain.User;
 import webProject.SIProject.domain.Reservation;
+import webProject.SIProject.dto.Reservation_DTO;
 import webProject.SIProject.dto.SelectPalletItem_DTO;
 import webProject.SIProject.repository.OrderRepository;
 import webProject.SIProject.repository.ReservationRepository;
 import webProject.SIProject.repository.UserRepository;
 
+import java.io.UnsupportedEncodingException;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Optional;
 import java.util.List;
@@ -50,6 +53,19 @@ public class OrderServices {
                 .orElseThrow(IllegalArgumentException::new);
         orderList.setStatus(toChange);
     }
+
+    @Transactional
+    public void update(Long orderid, String toChange, Reservation_DTO rdto) {
+        OrderList orderList = orderRepository.findById(orderid)
+                .orElseThrow(IllegalArgumentException::new);
+        User user = userRepository.findByEmail(orderList.getUser().getEmail())
+                .orElseThrow(IllegalArgumentException::new);
+        orderList.setStatus(toChange);
+        String req = rdto.getUserabout();
+        orderList.setRequest(req.getBytes(StandardCharsets.UTF_8));
+    }
+
+
     private boolean isStringEmpty(String str) {
         return str == null || str.isEmpty();
     }
@@ -61,54 +77,17 @@ public class OrderServices {
         orderRepository.deleteByIdAndUser(orderid,user);
     }
 
-    // email에 기반한 Order과 Reservation 찾기
-    public String read(String email){
-        String result = "";
-        String status = "";
-        Optional<OrderList> orderList = orderRepository.findByUser_Email(email);
-        if(orderList.isPresent()) {
-            OrderList ord = orderList.get();
-            List<Reservation> reservation = reservationRepository.findByOrderList(ord);
-            Iterator<Reservation> lreservation = reservation.iterator();
-            Reservation tmp;
-            String count;
-            String rday;
-            String spallet;
-            while(lreservation.hasNext()){
-                tmp = lreservation.next();
-                result += count = tmp.getCount();
-                result += rday = tmp.getRent_day();
-                result += spallet = tmp.getStandardPallet();
-            }
-            status = ord.getStatus();
-            result += status;
-        }
-        return result;
+    // email에 연관된 기반한 Order 모두찾기
+    public List<OrderList> read(String email){
+        List<OrderList> orderList = orderRepository.findByUser_Email(email);
+        return orderList;
     }
 
-    //email과 status에 기반한 Order와 Reservation 찾기
-    public String read(String email, String status){
-        String result = "";
-        Optional<OrderList> orderList = orderRepository.findByStatusAndUser_Email(status,email);
-        if(orderList.isPresent()) {
-            OrderList ord = orderList.get();
-            List<Reservation> reservation = reservationRepository.findByOrderList(ord);
-            Iterator<Reservation> lreservation = reservation.iterator();
-            Reservation tmp;
-            String count;
-            String rday;
-            String spallet;
-            while(lreservation.hasNext()){
-                tmp = lreservation.next();
-                result += count = tmp.getCount();
-                result += rday = tmp.getRent_day();
-                result += spallet = tmp.getStandardPallet();
-            }
-            result += status;
-            }
-        return result;
+    // email의 유일한 ing 주문 찾기.
+    public OrderList read(String email,String status){
+        OrderList orderList = orderRepository.findByStatusAndUser_Email(status,email)
+                .orElseThrow(IllegalArgumentException::new);
+        return orderList;
     }
-
-
 
 }
