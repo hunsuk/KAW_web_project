@@ -47,10 +47,7 @@ public class OrderServices {
                 .orElseThrow(IllegalArgumentException::new);
         User user = userRepository.findByEmail(email)
                 .orElseThrow(IllegalArgumentException::new);
-        orderRepository.save(orderList.builder()
-                        .status(toChange)
-                        .user(user)
-                        .build());
+        orderList.setStatus(toChange);
     }
     private boolean isStringEmpty(String str) {
         return str == null || str.isEmpty();
@@ -65,19 +62,25 @@ public class OrderServices {
 
     // email에 기반한 Order과 Reservation 찾기
     public List<Reservation> read(String email){
-        OrderList orderList = orderRepository.findByUser_Email(email)
-                .orElseThrow(IllegalArgumentException::new);
-        String status = orderList.getStatus();
-        List<Reservation> reservations = orderList.getReservations();
-        return reservations;
+        Optional<OrderList> orderList = orderRepository.findByUser_Email(email);
+        if(orderList.isPresent()) {
+            OrderList ord = orderList.get();
+            String status = ord.getStatus();
+            List<Reservation> reservations = ord.getReservations();
+            return reservations;
+        }
+        return null;
     }
 
     //email과 status에 기반한 Order와 Reservation 찾기
     public List<Reservation> read(String email, String status){
-        OrderList orderList = orderRepository.findByStatusAndUser_Email(status,email)
-                .orElseThrow(IllegalArgumentException::new);
-        List<Reservation> reservations = orderList.getReservations();
-        return reservations;
+        Optional<OrderList> orderList = orderRepository.findByStatusAndUser_Email(status,email);
+        if(orderList.isPresent()) {
+            OrderList ord = orderList.get();
+            List<Reservation> reservations = ord.getReservations();
+            return reservations;
+        }
+        return null;
     }
 
 

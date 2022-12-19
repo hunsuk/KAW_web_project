@@ -50,8 +50,8 @@ public class ReservationServices {
                 .orElseThrow(IllegalArgumentException::new);
         int len = infoDto.getSelected().length;
         int i;
+        reservationRepository.deleteByOrderList(orderList);
         for(i = 0; i < len; i++) {
-            reservationRepository.deleteByOrderList(orderList);
             String countDto = infoDto.getCount()[i];
             String rentDay = infoDto.getRant_day()[i];
             String selected = infoDto.getSelected()[i];
@@ -68,7 +68,7 @@ public class ReservationServices {
     // email status standardPallet 받아서 각각 reservation 삭제
     @Transactional
     public void delete(String email, String status, String standardPallet){
-        OrderList orderList = orderRepository.findByStatusAndUser_Email(email,status)
+        OrderList orderList = orderRepository.findByStatusAndUser_Email(status,email)
                 .orElseThrow(IllegalArgumentException::new);
         reservationRepository.deleteByOrderListAndStandardPallet(orderList,standardPallet);
     }
