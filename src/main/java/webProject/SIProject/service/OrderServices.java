@@ -54,6 +54,7 @@ public class OrderServices {
         orderList.setStatus(toChange);
     }
 
+    //orderList request 추가하는 함수.
     @Transactional
     public void update(Long orderid, String toChange, Reservation_DTO rdto) {
         OrderList orderList = orderRepository.findById(orderid)
@@ -61,8 +62,10 @@ public class OrderServices {
         User user = userRepository.findByEmail(orderList.getUser().getEmail())
                 .orElseThrow(IllegalArgumentException::new);
         orderList.setStatus(toChange);
-        String req = rdto.getUserabout();
-        orderList.setRequest(req.getBytes(StandardCharsets.UTF_8));
+        if(!rdto.getUserabout().isEmpty()){
+            String req = rdto.getUserabout();
+            orderList.setRequest(req.getBytes(StandardCharsets.UTF_8));
+        }
     }
 
 

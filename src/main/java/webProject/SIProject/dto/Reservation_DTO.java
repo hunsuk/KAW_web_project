@@ -11,5 +11,5 @@ public class Reservation_DTO {
     private String[] selected;
     private String[] count;
     private String[] rant_day;
-    private String userabout;
+    private String userabout = "";
 }

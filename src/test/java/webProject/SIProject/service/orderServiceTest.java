@@ -37,7 +37,7 @@ class orderServiceTest {
         rDTO.setCount(new String[]{"1","2","3"});
         rDTO.setRant_day(new String[]{"1","2","3"});
         rDTO.setSelected(new String[]{"1","2","3"});
-        rDTO.setUserabout("hello");
+        //rDTO.setUserabout("hello");
 
         long i = 1;
         reservationServices.save("daw564@naver.com","sent",rDTO);
@@ -45,7 +45,7 @@ class orderServiceTest {
         rDTO.setCount(new String[]{"4","5","6"});
         rDTO.setRant_day(new String[]{"4","5","6"});
         rDTO.setSelected(new String[]{"4","5","6"});
-        rDTO.setUserabout("goodbye.");
+        //rDTO.setUserabout("goodbye.");
 
         reservationServices.update(i,"ing", rDTO);
 
@@ -57,11 +57,11 @@ class orderServiceTest {
 
         //orderServices.delete(i,"daw564@naver.com");
 
-        reservationServices.read(i);
+        //reservationServices.read(i);
 
-        orderServices.read("daw564@naver.com");
+        //orderServices.read("daw564@naver.com");
 
-        orderServices.read("daw564@naver.com", "ing");
+        //orderServices.read("daw564@naver.com", "ing");
 
 
     }
