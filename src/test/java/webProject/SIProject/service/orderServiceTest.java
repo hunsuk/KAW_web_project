@@ -45,7 +45,7 @@ class orderServiceTest {
         rDTO.setCount(new String[]{"4","5","6"});
         rDTO.setRant_day(new String[]{"4","5","6"});
         rDTO.setSelected(new String[]{"4","5","6"});
-        rDTO.setUserabout("goodbye.");
+        rDTO.setUserabout("한글도 잘들어갑니다.");
 
         reservationServices.update(i,"ing", rDTO);
 

@@ -19,8 +19,10 @@ public class OrderList {
     private Long id;
     private String status;
 
-    @Column(name = "RText", columnDefinition="BLOB")
-    private byte[] request;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private String request;
 
     //Order = 1 : reservations = many
     @OneToMany(mappedBy = "orderList", cascade = CascadeType.ALL, orphanRemoval = true)

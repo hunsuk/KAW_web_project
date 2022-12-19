@@ -46,7 +46,7 @@ public class ReservationServices {
             orderLists.setStatus("sent");
             if(!infoDto.getUserabout().isEmpty()){
                 String req = infoDto.getUserabout();
-                orderLists.setRequest(req.getBytes(StandardCharsets.UTF_8));
+                orderLists.setRequest(req);
             }
         }
     }
@@ -73,7 +73,7 @@ public class ReservationServices {
         orderList.setStatus(toStatus);
         if(!infoDto.getUserabout().isEmpty()){
             String req = infoDto.getUserabout();
-            orderList.setRequest(req.getBytes(StandardCharsets.UTF_8));
+            orderList.setRequest(req);
         }
     }
 

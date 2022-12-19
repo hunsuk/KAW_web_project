@@ -64,7 +64,7 @@ public class OrderServices {
         orderList.setStatus(toChange);
         if(!rdto.getUserabout().isEmpty()){
             String req = rdto.getUserabout();
-            orderList.setRequest(req.getBytes(StandardCharsets.UTF_8));
+            orderList.setRequest(req);
         }
     }
 
