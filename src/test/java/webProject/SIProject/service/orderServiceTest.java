@@ -47,15 +47,15 @@ class orderServiceTest {
 
         reservationServices.update(i,"ing", rDTO);
 
-        reservationServices.delete("daw564@naver.com","ing","4");
+        //reservationServices.delete("daw564@naver.com","ing","4");
 
-        reservationServices.delete(i, "6");
+        //reservationServices.delete(i, "6");
 
         //orderServices.update(i,"daw564@naver.com","ok");
 
         //orderServices.delete(i,"daw564@naver.com");
 
-        orderServices.read("daw564@naver.com");
+        System.out.println(orderServices.read("daw564@naver.com","ing"));
 
 
     }

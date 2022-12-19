@@ -12,6 +12,7 @@ import webProject.SIProject.repository.OrderRepository;
 import webProject.SIProject.repository.ReservationRepository;
 import webProject.SIProject.repository.UserRepository;
 
+import java.util.Iterator;
 import java.util.Optional;
 import java.util.List;
 
@@ -61,26 +62,51 @@ public class OrderServices {
     }
 
     // email에 기반한 Order과 Reservation 찾기
-    public List<Reservation> read(String email){
+    public String read(String email){
+        String result = "";
+        String status = "";
         Optional<OrderList> orderList = orderRepository.findByUser_Email(email);
         if(orderList.isPresent()) {
             OrderList ord = orderList.get();
-            String status = ord.getStatus();
-            List<Reservation> reservations = ord.getReservations();
-            return reservations;
+            List<Reservation> reservation = reservationRepository.findByOrderList(ord);
+            Iterator<Reservation> lreservation = reservation.iterator();
+            Reservation tmp;
+            String count;
+            String rday;
+            String spallet;
+            while(lreservation.hasNext()){
+                tmp = lreservation.next();
+                result += count = tmp.getCount();
+                result += rday = tmp.getRent_day();
+                result += spallet = tmp.getStandardPallet();
+            }
+            status = ord.getStatus();
+            result += status;
         }
-        return null;
+        return result;
     }
 
     //email과 status에 기반한 Order와 Reservation 찾기
-    public List<Reservation> read(String email, String status){
+    public String read(String email, String status){
+        String result = "";
         Optional<OrderList> orderList = orderRepository.findByStatusAndUser_Email(status,email);
         if(orderList.isPresent()) {
             OrderList ord = orderList.get();
-            List<Reservation> reservations = ord.getReservations();
-            return reservations;
-        }
-        return null;
+            List<Reservation> reservation = reservationRepository.findByOrderList(ord);
+            Iterator<Reservation> lreservation = reservation.iterator();
+            Reservation tmp;
+            String count;
+            String rday;
+            String spallet;
+            while(lreservation.hasNext()){
+                tmp = lreservation.next();
+                result += count = tmp.getCount();
+                result += rday = tmp.getRent_day();
+                result += spallet = tmp.getStandardPallet();
+            }
+            result += status;
+            }
+        return result;
     }
 
 
