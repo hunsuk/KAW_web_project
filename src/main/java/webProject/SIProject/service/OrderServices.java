@@ -62,10 +62,8 @@ public class OrderServices {
         User user = userRepository.findByEmail(orderList.getUser().getEmail())
                 .orElseThrow(IllegalArgumentException::new);
         orderList.setStatus(toChange);
-        if(!rdto.getUserabout().isEmpty()){
-            String req = rdto.getUserabout();
-            orderList.setRequest(req);
-        }
+        String req = rdto.getUserabout();
+        orderList.setRequest(req);
     }
 
 

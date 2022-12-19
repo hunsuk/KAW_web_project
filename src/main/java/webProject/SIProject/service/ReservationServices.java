@@ -44,10 +44,8 @@ public class ReservationServices {
                         .build());
             }
             orderLists.setStatus("sent");
-            if(!infoDto.getUserabout().isEmpty()){
-                String req = infoDto.getUserabout();
-                orderLists.setRequest(req);
-            }
+            String req = infoDto.getUserabout();
+            orderLists.setRequest(req);
         }
     }
 
@@ -71,10 +69,8 @@ public class ReservationServices {
                     .build());
         }
         orderList.setStatus(toStatus);
-        if(!infoDto.getUserabout().isEmpty()){
-            String req = infoDto.getUserabout();
-            orderList.setRequest(req);
-        }
+        String req = infoDto.getUserabout();
+        orderList.setRequest(infoDto.getUserabout());
     }
 
     // email status standardPallet 받아서 각각 reservation 삭제
