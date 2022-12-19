@@ -2,10 +2,7 @@ package webProject.SIProject.domain;
 
 import javax.persistence.*;
 
-import lombok.Builder;
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +11,7 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
 public class OrderList {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

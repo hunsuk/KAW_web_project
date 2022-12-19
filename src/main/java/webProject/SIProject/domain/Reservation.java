@@ -16,7 +16,6 @@ public class Reservation {
     private String count;
     private String rent_day;
     private String standardPallet;
-    private String userAbout;
 
 
     //Order = 1 : Reservation = many
@@ -26,7 +25,7 @@ public class Reservation {
     private OrderList orderList;
 
     @Builder
-    public Reservation(String count, String rent_day, OrderList orderList,String standardPallet,String userAbout) {
+    public Reservation(String count, String rent_day, OrderList orderList,String standardPallet) {
         this.count = count;
         this.rent_day = rent_day;
         this.orderList = orderList;

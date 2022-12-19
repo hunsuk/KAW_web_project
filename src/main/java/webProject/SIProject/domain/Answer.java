@@ -21,7 +21,7 @@ public class Answer {
 
     //User = 1 : Order = many
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="code")
+    @JoinColumn(name="email")
     private User user;
 
 }
