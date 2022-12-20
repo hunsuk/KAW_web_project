@@ -31,15 +31,15 @@ public class OrderServices {
 
 
     @Transactional
-    public void save(String email, SelectPalletItem_DTO infoDto) {
-        String statusOrder = infoDto.getSelect_pallet();
-        if(isStringEmpty(statusOrder)){
+    public void save(String email, String items) {
+        if(isStringEmpty(items)){
         }else{
             User user = userRepository.findByEmail(email)
                     .orElseThrow(IllegalArgumentException::new);
             orderRepository.save(OrderList.builder()
                     .status("ing")
                     .user(user)
+                    .items(items)
                     .build());
         }
     }
@@ -62,7 +62,7 @@ public class OrderServices {
         User user = userRepository.findByEmail(orderList.getUser().getEmail())
                 .orElseThrow(IllegalArgumentException::new);
         orderList.setStatus(toChange);
-        String req = rdto.getUserabout();
+        String req = rdto.getUserAbout();
         orderList.setRequest(req);
     }
 

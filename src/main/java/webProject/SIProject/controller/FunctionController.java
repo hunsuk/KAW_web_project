@@ -14,6 +14,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
+import webProject.SIProject.domain.OrderList;
 import webProject.SIProject.domain.PalletItem;
 import webProject.SIProject.domain.Reservation;
 import webProject.SIProject.domain.User;
@@ -51,12 +52,7 @@ public class FunctionController {
 
     @PostMapping("/request_detail")
     public String request_detail(@AuthenticationPrincipal User user,@ModelAttribute SelectPalletItem_DTO select_pallet,Model model){
-        log.info(select_pallet.getSelect_pallet());
         ArrayList<PalletItem> palletItem_send_list = new ArrayList<PalletItem>();
-
-
-        orderServices.save(user.getEmail(),select_pallet);
-
 
         if(select_pallet.getSelect_pallet().equals("-")){
             model.addAttribute("palletItem_list",palletItem_send_list);
@@ -72,23 +68,19 @@ public class FunctionController {
         }
 
         model.addAttribute("palletItem_list",palletItem_send_list);
-        return "PalletRequestSend_V2";
+        return "PalletRequestSend_V3";
     }
 
     @PostMapping("/request_send")
     public String request_send(@AuthenticationPrincipal User user, @ModelAttribute Reservation_DTO reservation_list, Model model){
         log.info(reservation_list.toString());
         log.info(user.getEmail());
-////        ArrayList<Reservation> reservations = new ArrayList<Reservation>();
-//        for(int i=0; i<reservation_list.getSelected().length; i++){
-////            reservationServices.save(user.getEmail(),reservation_list);
-//        }
-//
-////        for(int i =0; i < reservations.size(); i++) {
-////            log.info(reservations.get(i).toString());
-////        }
+        OrderList orderList = orderServices.read(user.getEmail(),"ing");
 
-        return "main";
+        reservationServices.save(user.getEmail(), orderList, reservation_list);
+        model.addAttribute("userAuth",user.getAuth());
+
+        return "redirect:/";
     }
 
     @GetMapping("/publish_resp")
@@ -106,9 +98,10 @@ public class FunctionController {
         return "PrdicRequestReturn";
     }
 
-    @GetMapping("/QnA")
-    public String QnA(){
-        return "QnA";
+    @GetMapping("/setBuket")
+    public void setBuket(@AuthenticationPrincipal User user,@RequestParam(value = "items") String items){
+        orderServices.save(user.getEmail(),items);
+        log.info("장바구니 정보 받기");
     }
 
     @GetMapping("/FS")
@@ -123,6 +116,5 @@ public class FunctionController {
     public String prediction_admin(){
         return "redirect:http://127.0.0.1:5000/admin";
     }
-
 
 }

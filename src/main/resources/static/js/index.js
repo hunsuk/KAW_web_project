@@ -123,9 +123,9 @@ function getLocation(){
     console.log(malls)
       map = new google.maps.Map(document.getElementById("map"), {
           center: { lat: latitude, lng: longitude },
-          zoom: 5
+          zoom: 10
         });
-      const bounds = new google.maps.LatLngBounds();
+//      const bounds = new google.maps.LatLngBounds();
       const infowindow = new google.maps.InfoWindow();
 
 
@@ -136,7 +136,7 @@ function getLocation(){
             label,
             map: map
           });
-          bounds.extend(marker.position);
+//          bounds.extend(marker.position);
 
           marker.addListener("click", () => {
             map.panTo(marker.position);
@@ -147,5 +147,5 @@ function getLocation(){
             });
           });
         });
-        map.fitBounds(bounds);
+//        map.fitBounds(bounds);
   }

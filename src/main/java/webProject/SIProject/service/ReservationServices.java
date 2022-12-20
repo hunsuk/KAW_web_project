@@ -23,13 +23,11 @@ public class ReservationServices {
     private final OrderRepository orderRepository;
 
     @Transactional
-    public void save(String email, String status, Reservation_DTO infoDto) {
-        if(status != "ing") {
-            return;
-        }
-        Optional<OrderList> orderList = orderRepository.findByStatusAndUser_Email(status,email);
-        if(orderList.isPresent()){
-            OrderList orderLists = orderList.get();
+    public void save(String email, OrderList orderList, Reservation_DTO infoDto) {
+            orderList.setStatus("sent");
+//        Optional<OrderList> orderList = orderRepository.findByStatusAndUser_Email(status,email);
+//        if(orderList.isPresent()){
+//            OrderList orderLists = orderList.get();
             int len = infoDto.getSelected().length;
             int i;
             for(i = 0; i < len; i++) {
@@ -39,15 +37,15 @@ public class ReservationServices {
                 reservationRepository.save(Reservation.builder()
                         .count(countDto)
                         .rent_day(rentDay)
-                        .orderList(orderLists)
+                        .orderList(orderList)
                         .standardPallet(selected)
                         .build());
             }
-            orderLists.setStatus("sent");
-            String req = infoDto.getUserabout();
-            orderLists.setRequest(req);
+
+            String req = infoDto.getUserAbout();
+            orderList.setRequest(req);
         }
-    }
+//    }
 
     //orderid 기반으로 찾고 딸린 reservation들 전부 삭제 후 dto로부터 읽어와서 재 저장
     @Transactional
@@ -69,8 +67,8 @@ public class ReservationServices {
                     .build());
         }
         orderList.setStatus(toStatus);
-        String req = infoDto.getUserabout();
-        orderList.setRequest(infoDto.getUserabout());
+        String req = infoDto.getUserAbout();
+        orderList.setRequest(infoDto.getUserAbout());
     }
 
     // email status standardPallet 받아서 각각 reservation 삭제

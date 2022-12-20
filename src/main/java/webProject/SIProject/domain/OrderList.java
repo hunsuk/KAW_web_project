@@ -18,8 +18,7 @@ public class OrderList {
     @Column(name = "ORDERLIST_ID")
     private Long id;
     private String status;
-
-
+    private String items;
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private String request;
@@ -34,9 +33,10 @@ public class OrderList {
     private User user;
 
     @Builder
-    public OrderList(String status,User user) {
+    public OrderList(String status,User user,String items) {
         this.status = status;
         this.user = user;
+        this.items = items;
     }
 
     public void addReservation(Reservation reservation) {
