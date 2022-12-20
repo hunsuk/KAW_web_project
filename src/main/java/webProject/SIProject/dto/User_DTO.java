@@ -12,7 +12,7 @@ public class User_DTO {
     private String phone;
     private String h_area1;
     private String h_area2;
-
+    private String h_area3;
     private String managerName;
     private String corpNumber;
     private String corpPhoneNumber;

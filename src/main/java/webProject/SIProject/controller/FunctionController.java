@@ -39,28 +39,20 @@ public class FunctionController {
     private final OrderServices orderServices;
 
     private final ReservationServices reservationServices;
-    PalletItem_DTO palletItem1 = new PalletItem_DTO("표준형","11A형","1,100mm X 1,100mm X 150mm","19.5kg","HDPE","적재하중 1Ton/4방 차입형 편면 사용형","http://ajnetworks.co.kr/assets/uploads/product/product_11A_1.png","A11");
-    PalletItem_DTO palletItem2 = new PalletItem_DTO("표준형","12A형","1,200mm X 1,000mm X 150mm","19.5kg","HDPE","적재하중 1Ton/4방 차입형 편면 사용형","http://ajnetworks.co.kr/assets/uploads/product/product_12A_1.png","A12");
-    PalletItem_DTO palletItem3 = new PalletItem_DTO("표준형","11B형","1,100mm X 1,100mm X 150mm","26.2kg","HDPE","적재하중 1Ton/4방 차입형 편면 사용형","http://ajnetworks.co.kr/assets/uploads/product/product_11B_1.png","B11");
 
-    ArrayList<PalletItem_DTO> palletItem_list = new ArrayList<PalletItem_DTO>(){{
-        add(palletItem1);
-        add(palletItem2);
-        add(palletItem3);
-    }};
+    List<PalletItem> palletItemList = new ArrayList<PalletItem>();
     @GetMapping("/publish_req")
-    public String publish_req(Model model) throws UnsupportedEncodingException {
-
-
-        model.addAttribute("palletItem_list",palletItem_list);
-        return "PalletRequest";
+    public String publish_req(@AuthenticationPrincipal User user,Model model) throws UnsupportedEncodingException {
+        palletItemList = palletItemService.getPallet();
+        model.addAttribute("userAuth",user.getAuth());
+        model.addAttribute("palletItem_list",palletItemList);
+        return "PalletRequest_V2";
     }
-
 
     @PostMapping("/request_detail")
     public String request_detail(@AuthenticationPrincipal User user,@ModelAttribute SelectPalletItem_DTO select_pallet,Model model){
         log.info(select_pallet.getSelect_pallet());
-        ArrayList<PalletItem_DTO> palletItem_send_list = new ArrayList<PalletItem_DTO>();
+        ArrayList<PalletItem> palletItem_send_list = new ArrayList<PalletItem>();
 
 
         orderServices.save(user.getEmail(),select_pallet);
@@ -72,28 +64,29 @@ public class FunctionController {
         }
 
         List<String> input_list = new ArrayList<>(List.of(select_pallet.getSelect_pallet().split(",")));
-        for(int i = 0; i < palletItem_list.size(); i++){
-            PalletItem_DTO input_palletItem = palletItem_list.get(i);
-            if(input_list.contains(palletItem_list.get(i).getFront_type())){
+        for(int i = 0; i < palletItemList.size(); i++){
+            PalletItem input_palletItem = palletItemList.get(i);
+            if(input_list.contains(palletItemList.get(i).getFront_type())){
                 palletItem_send_list.add(input_palletItem);
             }
         }
 
         model.addAttribute("palletItem_list",palletItem_send_list);
-        return "PalletRequestSend";
+        return "PalletRequestSend_V2";
     }
 
     @PostMapping("/request_send")
     public String request_send(@AuthenticationPrincipal User user, @ModelAttribute Reservation_DTO reservation_list, Model model){
         log.info(reservation_list.toString());
         log.info(user.getEmail());
-        ArrayList<Reservation> reservations = new ArrayList<Reservation>();
-        for(int i=0; i<reservation_list.getSelected().length; i++){
-            reservationServices.save(user.getEmail(),reservation_list);
-        }
-        for(int i =0; i < reservations.size(); i++) {
-            log.info(reservations.get(i).toString());
-        }
+////        ArrayList<Reservation> reservations = new ArrayList<Reservation>();
+//        for(int i=0; i<reservation_list.getSelected().length; i++){
+////            reservationServices.save(user.getEmail(),reservation_list);
+//        }
+//
+////        for(int i =0; i < reservations.size(); i++) {
+////            log.info(reservations.get(i).toString());
+////        }
 
         return "main";
     }

@@ -20,7 +20,7 @@ body{
 }
 .login-box{
  background: rgb(239, 239, 239);
- border: 1px solid red;
+ border: 1px solid blue;
  padding: 100px 100px 50px 100px;
  display: flex;
  flex-direction: column;
@@ -50,7 +50,7 @@ input[type="text"].form-control, input[type="password"].form-control{
  transition: all 0.3s ease;
 }
 input[type="text"].form-control:hover, input[type="password"].form-control:hover{
- border: 2px solid #969696;
+ border: 2px solid #c8c8c7;
 }
 input[type="text"].form-control:focus, input[type="password"].form-control:focus{
  border: 2px solid #6f6f6f;
@@ -71,7 +71,7 @@ label input[type="checkbox"]{
 }
 button{
  outline: none;
- background: #ff4747;
+ background: #0d6efd;
  color: #FFF;
  padding: 16px;
  display: block;

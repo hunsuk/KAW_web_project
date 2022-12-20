@@ -51,7 +51,7 @@ public class UserService implements UserDetailsService {
                 .phone(infoDto.getPhone())
                 .corpName(infoDto.getCorpName())
                 .managerName(infoDto.getManagerName())
-                .location(infoDto.getH_area1() + "-" + infoDto.getH_area2())
+                .location(infoDto.getH_area1() + "-" + infoDto.getH_area2() + "-"+infoDto.getH_area3())
                 .corpNumber(infoDto.getCorpNumber())
                 .createAt(LocalDateTime.now())
                 .modifiedAt(LocalDateTime.now())

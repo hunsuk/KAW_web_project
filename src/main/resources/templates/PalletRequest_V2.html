@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>아주렌탈</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles_request.css" rel="stylesheet" />
+    <script type="text/javascript">
+
+
+
+        <!-- 파렛트 상품 리스트 -->
+        var itemAry = [];
+
+        window.onbeforeunload = function() {
+            return "저장되지 않은 변경사항이 있습니다. 정말 페이지를 떠나실 건 가요?";
+        };
+
+        <!-- 해당 파렛트 장바구니 담기     -->
+        function getCart(event){
+            let type = event.target.value;
+            var doc_type = document.getElementById(type);
+            var cart_number = document.getElementById("cart_number");
+            itemAry.push(type);
+
+            doc_type.style = 'display : none;'
+            doc_type = document.getElementById(type + 1);
+            doc_type.style = 'display : visibility;'
+            cart_number.innerText = itemAry.length
+
+            var tem = document.getElementById("tem");
+            tem.innerHTML = "<INPUT TYPE='text 'style='display : none;' ID='select_pallet' NAME='select_pallet' VALUE = '" + itemAry.toString() + "'>"
+            console.log(itemAry)
+        }
+        <!-- 해당 파렛트 장바구니 담기 취소 -->
+        function delCart(event){
+            let type = event.target.value;
+            var doc_type_del = document.getElementById(type);
+            itemAry.splice(itemAry.indexOf(type.substr(0, 3)),1);
+
+            doc_type_del.style = 'display : none;'
+            console.log(type.substr(0, 4))
+            doc_type_in = document.getElementById(type.substr(0, 4));
+            doc_type_in.style = 'display : visibility;'
+
+            var cart_number = document.getElementById("cart_number");
+            cart_number.innerText = itemAry.length
+
+            var tem = document.getElementById("tem");
+            tem.innerHTML = "<INPUT TYPE='text' style='display : none;' ID='select_pallet' NAME='select_pallet' VALUE = '" + itemAry.toString() + "'>"
+        }
+    </script>
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container px-4">
+        <img class="navbar-brand" style="width: 4%; height: 4%;" src="img/index.png"/>
+        <a class="navbar-brand" href="#page-top">AJ렌탈</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="#!">Home</a></li>
+<!--                <li class="nav-item dropdown">-->
+<!--                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>-->
+<!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--                        <li><a class="dropdown-item" href="#!">All Products</a></li>-->
+<!--                        <li><hr class="dropdown-divider" /></li>-->
+<!--                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>-->
+<!--                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>-->
+<!--                    </ul>-->
+<!--                </li>-->
+            </ul>
+            <form class="d-flex">
+                <button class="btn btn-outline-light" type="submit">
+                    <i class="bi-cart-fill me-1"></i>
+                    장바구니
+                    <span class="badge bg-dark text-white ms-1 rounded-pill" id="cart_number">0</span>
+                </button>
+            </form>
+        </div>
+    </div>
+</nav>
+<!-- Header-->
+<header class="bg-primary bg-gradient text-white">
+    <div class="container px-4 text-center">
+        <h1 class="fw-bolder">사용 환경에 특화 된 파렛트 렌탈 시스템</h1>
+        <p class="lead">원하는 곳에 필요한 만큼, 대여부터 회수까지 빠르고 편리하게 제공합니다.</p>
+        <a class="btn btn-lg btn-light" href="/publish_req" th:if="${userAuth=='ROLE_USER'}">주문하기 & 장바구니 가기!</a>
+        <br/>
+    </div>
+</header>
+<!-- Section-->
+<section>
+    <div class="container px-4 px-lg-5 mt-5">
+        <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+            <div class="col mb-5" th:each="palletItem , index: ${palletItem_list}">
+                <a id="tem"></a>
+                <div class="card h-100">
+                    <!-- Product image-->
+                    <img class="card-img-top" th:src="${palletItem.img_uri}" alt="..." />
+                    <!-- Product details-->
+                    <div class="card-body p-4">
+                        <div class="text-center">
+                            <!-- Product name-->
+                            <div class="text_productlist02" th:text="${palletItem.category}">표준형</div>
+                            <!-- Product price-->
+                            <a th:text="${palletItem.standard}">11A형</a> <br><br>
+                            <a th:text="${palletItem.size}">규격 1,100mm X 1,100mm X 150mm</a> <br>
+                            <a th:text="${palletItem.weight}">중량 19.5kg</a>
+                        </div>
+                    </div>
+                    <!-- Product actions-->
+                    <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+                        <div class="text-center"><button class="btn btn-outline-dark mt-auto" onclick="getCart(event)" th:value="${palletItem.front_type}" th:id = "${palletItem.front_type}">제품 담기</button></div>
+                        <div class="text-center"><button class="btn btn-outline-dark mt-auto" onclick="delCart(event)" style='display : none;' th:value="${palletItem.front_type}+1" th:id="${palletItem.front_type}+1">담기 취소</button></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">개인정보처리방침 | 고객센터</p></div>
+    <br>
+    <div class="container"><p class="m-0 text-center text-white">05836 서울특별시송파구정의로 8길 9 AJ빌딩</p></div>
+    <div class="container"><p class="m-0 text-center text-white">대표전화 1588-0053</p></div>
+    <div class="container"><p class="m-0 text-center text-white">Copyright AJ Networks Corporation. All rights reserved.</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts_request.js"></script>
+</body>
+</html>

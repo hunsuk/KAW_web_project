@@ -22,19 +22,18 @@
 
             var tem = document.getElementById("tem");
             tem.innerHTML = "<INPUT TYPE='text 'style='display : none;' ID='select_pallet' NAME='select_pallet' VALUE = '" + itemAry.toString() + "'>"
-
+            console.log(itemAry)
         }
         <!-- 해당 파렛트 장바구니 담기 취소 -->
         function delCart(event){
             let type = event.target.value;
-            var doc_type = document.getElementById(type);
+            var doc_type_del = document.getElementById(type);
             itemAry.splice(itemAry.indexOf(type.substr(0, 3)),1);
 
-            doc_type.style = 'display : none;'
-            doc_type = document.getElementById(type.substr(0, 3));
-            doc_type.style = 'display : visibility;'
-
-            console.log(itemAry)
+            doc_type_del.style = 'display : none;'
+            console.log(type.substr(0, 4))
+            doc_type_in = document.getElementById(type.substr(0, 4));
+            doc_type_in.style = 'display : visibility;'
 
             var cart_number = document.getElementById("cart_number");
             cart_number.innerText = "장바구니에 "+ itemAry.length +"개가 담겨 있습니다."
@@ -62,7 +61,7 @@
 <div class="area_productlist">
     <ul role="list" class="ul_productlist w-list-unstyled" id="product_list" th:each="palletItem , index: ${palletItem_list}">
         <li class="li_productlist" data-sub1="56" data-sub2="0" data-sub3="0" data-filter="">
-            <a class="block_productlistimg w-inline-block"><img th:src="${palletItem.img_uri}" loading="lazy" sizes="(max-width: 479px) 93vw, (max-width: 767px) 96vw, (max-width: 991px) 97vw, 23vw"  alt="" class="img_productlistthumb"></a>
+                <a class="block_productlistimg w-inline-block"><img th:src="${palletItem.img_uri}" loading="lazy" sizes="(max-width: 479px) 93vw, (max-width: 767px) 96vw, (max-width: 991px) 97vw, 23vw"  alt="" class="img_productlistthumb"></a>
             <div class="block_productlisttext">
 
                     <div class="block_productlisttext01">
@@ -90,7 +89,7 @@
 
             </div>
             <button onclick="getCart(event)" th:value="${palletItem.front_type}" th:id = "${palletItem.front_type}" class="button_addcart w-button">제품담기</button>
-            <button onclick="delCart(event)" style='display : none;' th:value="${palletItem.front_type} + 1" th:id = "${palletItem.front_type} + 1" class="button_addcart w-button">담기취소</button>
+            <button onclick="delCart(event)" style='display : none;' th:value="${palletItem.front_type}+1" th:id="${palletItem.front_type}+1" class="button_addcart w-button">담기취소</button>
         </li>
     </ul>
 </div>

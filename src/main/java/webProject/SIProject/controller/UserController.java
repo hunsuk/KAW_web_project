@@ -24,12 +24,15 @@ public class UserController {
 
 
     @GetMapping("/")
-    public String goToPage(@AuthenticationPrincipal User user){
-        if(user.getAuth().equals("ROLE_USER")){
-            return "main";
-        }else{
-            return "admin";
-        }
+    public String goToPage(@AuthenticationPrincipal User user,Model model){
+        model.addAttribute("userName",user.getCorpName()+" "+user.getManagerName());
+        model.addAttribute("userAuth",user.getAuth());
+        return "main_v3";
+//        if(user.getAuth().equals("ROLE_USER")){
+//            return "main_v3";
+//        }else{
+//            return "admin";
+//        }
     }
 
 
