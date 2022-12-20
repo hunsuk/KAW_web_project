@@ -27,7 +27,7 @@
                 <div class="collapse navbar-collapse" id="navbarResponsive">
 
                     <ul class="navbar-nav ms-auto">
-                        <li class="nav-link"><span>내정보</span></li>
+                        <li class="nav-link"><a href="#" onclick="location.href='/myPage'" style="text-decoration-line: none;color: inherit;">내정보</a></li>
                         <li class="nav-link"><span th:text="${userName}"></span> <span th:if="${userAuth=='ROLE_USER'}">고객님</span><span th:if="${userAuth!='ROLE_USER'}">관리자님</span></li>
                         <li class="nav-link">
                             <form id="logout" action="/logout" method="POST">

@@ -104,10 +104,13 @@ public class FunctionController {
         log.info("장바구니 정보 받기");
     }
 
-    @GetMapping("/FS")
-    public String FS(){
-        return "FSapi";
+    @GetMapping("/myPage")
+    public String myPage(@AuthenticationPrincipal User user ,Model model){
+        model.addAttribute("user_info",user);
+        return "Myinfo";
     }
+
+
     @GetMapping("/prediction_user")
     public String prediction_user(){
         return "redirect:http://127.0.0.1:5000/user";

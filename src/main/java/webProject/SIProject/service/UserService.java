@@ -53,6 +53,7 @@ public class UserService implements UserDetailsService {
                 .managerName(infoDto.getManagerName())
                 .location(infoDto.getH_area1() + "-" + infoDto.getH_area2() + "-"+infoDto.getH_area3())
                 .corpNumber(infoDto.getCorpNumber())
+                .corpPhoneNumber(infoDto.getCorpPhoneNumber())
                 .createAt(LocalDateTime.now())
                 .modifiedAt(LocalDateTime.now())
                 .build()).getCode();

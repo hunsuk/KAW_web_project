@@ -49,6 +49,8 @@ public class User implements UserDetails {
     @Column(name = "managerName") //담당자이름
     private String managerName; //담당자이름
 
+    @Column(name="corpPhoneNumber")
+    private String corpPhoneNumber;
     @CreatedDate
     private LocalDateTime createAt; // 생성시간
 
@@ -69,7 +71,7 @@ public class User implements UserDetails {
     private List<Answer> answers = new ArrayList<Answer>();
      */
     @Builder
-    public User(String email,String phone, String password, String auth, String location, String corpNumber, String corpName, String managerName, LocalDateTime createAt,LocalDateTime modifiedAt) {
+    public User(String email,String phone, String password, String auth, String location, String corpNumber, String corpName, String managerName, LocalDateTime createAt,LocalDateTime modifiedAt,String corpPhoneNumber) {
         this.email = email;
         this.phone = phone;
         this.password = password;
@@ -78,6 +80,7 @@ public class User implements UserDetails {
         this.corpNumber = corpNumber;
         this.corpName = corpName;
         this.managerName = managerName;
+        this.corpPhoneNumber = corpPhoneNumber;
         this.createAt = createAt;
         this.modifiedAt = modifiedAt;
     }

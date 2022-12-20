@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+      xmlns:th="www.thymeleaf.org">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <meta name="description" content="" />
+    <meta name="author" content="" />
+    <title>아주렌탈</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="css/styles_request.css" rel="stylesheet" />
+
+</head>
+<body>
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav">
+    <div class="container px-4">
+        <img class="navbar-brand" style="width: 4%; height: 4%;" src="img/index.png"/>
+        <a class="navbar-brand" href="#page-top">AJ렌탈</a>
+
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4">
+                <li class="nav-item"><a class="nav-link active" aria-current="page" href="/">Home</a></li>
+                <!--                <li class="nav-item dropdown">-->
+                <!--                    <a class="nav-link dropdown-toggle" id="navbarDropdown" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Shop</a>-->
+                <!--                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+                <!--                        <li><a class="dropdown-item" href="#!">All Products</a></li>-->
+                <!--                        <li><hr class="dropdown-divider" /></li>-->
+                <!--                        <li><a class="dropdown-item" href="#!">Popular Items</a></li>-->
+                <!--                        <li><a class="dropdown-item" href="#!">New Arrivals</a></li>-->
+                <!--                    </ul>-->
+                <!--                </li>-->
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<!-- Header-->
+<header class="py-5 bg-image-full" style="background-image: url('https://source.unsplash.com/wfh8dDlNFOk/1600x900')">
+    <div class="text-center my-5">
+        <img class="img-fluid rounded-circle mb-4" src="https://cdn-icons-png.flaticon.com/512/149/149071.png" width="150px" height="150px" alt="..." />
+        <h1 class="text-white fs-3 fw-bolder" th:text="${user_info.managerName}">김현석</h1>
+        <p class="text-white-50 mb-0" th:text="${user_info.corpName}">삼성전자
+        </p>
+    </div>
+</header>
+<!-- Section-->
+<section><!-- Content section-->
+    <section class="py-5">
+        <div class="container my-5">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h2>내 정보</h2>
+                    <br>
+                    <br>
+                    <!--
+                        <p class="lead">내 정보</p>
+                        <p class="mb-0">수정하기</p>
+                    -->
+
+                    <table class="table table-striped">
+                        <thead>
+                        <tr>
+                            <th scope="col">가입 정보</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="row">법인명</th>
+                            <td th:text="${user_info.corpName}">AJ렌탈</td>
+                        </tr>
+                        <tr>
+                            <th scope="row" >담당자명</th>
+                            <td th:text="${user_info.managerName}">담당자</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">사업자등록번호</th>
+                            <td th:text="${user_info.corpNumber}">214-86-48586</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">휴대전화번호</th>
+                            <td th:text="${user_info.phone}">02-6363-9999</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row" >회사전화번호</th>
+                            <td th:text="${user_info.corpPhoneNumber}">1588-0053</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">이메일</th>
+                            <td th:text="${user_info.email}">AJrental@company.com</td>
+
+                        </tr>
+                        <tr>
+                            <th scope="row">주소</th>
+                            <td th:text="${user_info.location}">05836</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <br>
+                <br>
+                <div class="text-center"><a class="btn btn-outline-dark mt-auto" href="#">정보 수정</a></div>
+            </div>
+        </div>
+    </section>
+<!-- Footer-->
+<footer class="py-5 bg-dark">
+    <div class="container"><p class="m-0 text-center text-white">개인정보처리방침 | 고객센터</p></div>
+    <br>
+    <div class="container"><p class="m-0 text-center text-white">05836 서울특별시송파구정의로 8길 9 AJ빌딩</p></div>
+    <div class="container"><p class="m-0 text-center text-white">대표전화 1588-0053</p></div>
+    <div class="container"><p class="m-0 text-center text-white">Copyright AJ Networks Corporation. All rights reserved.</p></div>
+</footer>
+<!-- Bootstrap core JS-->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Core theme JS-->
+<script src="js/scripts_request.js"></script>
+</body>
+</html>
