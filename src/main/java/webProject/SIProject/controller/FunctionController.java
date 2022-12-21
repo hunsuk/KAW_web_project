@@ -18,10 +18,7 @@ import webProject.SIProject.domain.OrderList;
 import webProject.SIProject.domain.PalletItem;
 import webProject.SIProject.domain.Reservation;
 import webProject.SIProject.domain.User;
-import webProject.SIProject.dto.PalletItem_DTO;
-import webProject.SIProject.dto.Reservation_DTO;
-import webProject.SIProject.dto.SelectDelReservation_DTO;
-import webProject.SIProject.dto.SelectPalletItem_DTO;
+import webProject.SIProject.dto.*;
 import webProject.SIProject.repository.PalletItemRepository;
 import webProject.SIProject.repository.UserRepository;
 import webProject.SIProject.service.OrderServices;
@@ -119,16 +116,25 @@ public class FunctionController {
 
 //        OrderList orderList = orderServices.read(user.getEmail(),"sent");
         List<OrderList> orderList = orderServices.read(user.getEmail());
+        List<Reservation_add_User_DTO> reservationAddUser = new ArrayList<>();
+
         log.info(String.valueOf(orderList.size()));
-        List<PalletItem> palletItems = new ArrayList<PalletItem>();
-        List<Reservation> allReservations = new ArrayList<Reservation>();
+
         for(int i = 0; i < orderList.size(); i++){
             List<Reservation> reservations= reservationServices.read(orderList.get(i).getId());
             for(int j = 0; j < reservations.size(); j++){
-                allReservations.add(reservations.get(j));
+                reservationAddUser.add(Reservation_add_User_DTO.builder()
+                        .id(orderList.get(i).getReservations().get(j).getId())
+                        .count(orderList.get(i).getReservations().get(j).getCount())
+                        .rent_day(orderList.get(i).getReservations().get(j).getRent_day())
+                        .standardPallet(orderList.get(i).getReservations().get(j).getStandardPallet())
+                        .status(orderList.get(i).getReservations().get(j).getStatus())
+                        .request(orderList.get(i).getRequest())
+                        .palletItem(palletItemService.loadPalletItemByStandard(orderList.get(i).getReservations().get(j).getStandardPallet()))
+                        .build());
             }
         }
-        model.addAttribute("reservations",allReservations);
+        model.addAttribute("reservations",reservationAddUser);
         return "Check_my_request";
     }
 
@@ -175,19 +181,30 @@ public class FunctionController {
     public String control_request(@AuthenticationPrincipal User user, Model model){
         List<User> users = new ArrayList<>();
         List<OrderList> orderList = orderServices.allRead();
+        List<Reservation_add_User_DTO> reservationAddUser = new ArrayList<>();
         log.info(String.valueOf(orderList.size()));
         List<PalletItem> palletItems = new ArrayList<PalletItem>();
         List<Reservation> allReservations = new ArrayList<Reservation>();
         for(int i = 0; i < orderList.size(); i++){
-
             List<Reservation> reservations= reservationServices.read(orderList.get(i).getId());
-            for(int j = 0; j < reservations.size(); j++){
-                allReservations.add(reservations.get(j));
+            for(int j = 0; j < orderList.get(i).getReservations().size(); j++){
+
+                reservationAddUser.add(Reservation_add_User_DTO.builder()
+                                .id(orderList.get(i).getReservations().get(j).getId())
+                                        .count(orderList.get(i).getReservations().get(j).getCount())
+                                                .rent_day(orderList.get(i).getReservations().get(j).getRent_day())
+                                                        .standardPallet(orderList.get(i).getReservations().get(j).getStandardPallet())
+                                                                .status(orderList.get(i).getReservations().get(j).getStatus())
+                                                                        .request(orderList.get(i).getRequest())
+                                                                                .user(orderList.get(i).getUser())
+                                                                                    .palletItem(palletItemService.loadPalletItemByStandard(orderList.get(i).getReservations().get(j).getStandardPallet()))
+
+                                                                                    .build());
+
             }
         }
 
-        model.addAttribute("reservations",allReservations);
-
+        model.addAttribute("reservations",reservationAddUser);
         return "Control_request";
     }
 

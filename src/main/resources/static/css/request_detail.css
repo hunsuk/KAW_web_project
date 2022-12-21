@@ -90,6 +90,7 @@ body {
 
   .cart__list__option {
     vertical-align: top;
+    text-align: center;
     padding: 20px;
   }
 

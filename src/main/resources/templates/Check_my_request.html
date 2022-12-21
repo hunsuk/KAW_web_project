@@ -91,7 +91,7 @@
             <thead>
             <tr>
                 <th><input href="javascript:;" type="checkbox" onclick="all_check(this);"></th>
-                <td colspan="1">주문처리현황</td>
+                <td colspan="2">제품정보</td>
                 <td>옵션</td>
                 <td>수량</td>
                 <td>렌탈 기간</td>
@@ -101,14 +101,15 @@
             <tbody>
             <tr class="cart__list__detail" th:each="reservation , index: ${reservations}">
                 <td><input href="javascript:;" type="checkbox" id="select_box" th:value="${reservation.id}" name="selected"></td>
-                <td>
+
+                <td><img th:src="${reservation.palletItem.img_uri}" th:alt="${reservation.palletItem.front_type}"></td>
+                <td><p>[모델명] <a th:text="${reservation.standardPallet}">A11형</a></p>
                     <a th:text="${reservation.status}">처리중</a>
                     <!--
                     <p>[모델명]</p>
                     <sapn class="price">11A형</sapn><span
                         style="text-decoration: line-through; color: lightgray;">-</span>
                     -->
-                </td>
                 <td class="cart__list__option">
                     <p>[모델명] <a th:text="${reservation.standardPallet}">A11형</a></p>
                     <!--                    <button class="cart__list__optionbtn">주문조건 추가/변경</button>-->
@@ -119,7 +120,7 @@
                 <td>
                     <a th:text="${reservation.rent_day}"></a><a>개월</a>
                 </td>
-                <td><a th:text="${reservation.orderList.request}">11월까지</a></td>
+                <td><a th:text="${reservation.request}">11월까지</a></td>
 
             </tr>
             </tbody>
