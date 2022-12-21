@@ -4,11 +4,12 @@
 0. IDE는 Intelij를 사용 하고 JDK는 JAVA 11를 사용
 
 1. build는 gradle로 하며 아래와 같이 클릭후 Open as Project를 클릭
-   ![ex_screenshot](./img/e3.png)
-   ![ex_screenshot](./img/e4.png)
+![ex_screenshot](./img/e3.png)
+
+![ex_screenshot](./img/e4.png)
 
 2. JDK 설정은 ctrl+alt+shift+s를 통해 설정
- ![ex_screenshot](./img/e4.png)
+![ex_screenshot](./img/e5.png)
 
 3.shift+F10를 눌러 프로젝트 실행 
 
