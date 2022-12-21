@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>그래프</title>
+</head>
+<body>
+<a>AI 예측 통계</a>
+<p>{{ name }}</p>
+    {% if True %}
+    <img src="{{ url_for('static', filename=image_file_Quarter) }}">
+    <img src="{{ url_for('static', filename=image_file_Yearly) }}">
+    <img src="{{ url_for('static', filename=image_file_Quarter_income) }}">
+    <img src="{{ url_for('static', filename=image_file_Yearly_income) }}">
+
+    <br>
+    {% endif %}
+</body>
+</html>
