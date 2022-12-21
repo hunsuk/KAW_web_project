@@ -36,25 +36,6 @@ def user():
         return data_csv.to_html()
 
 
-
-@app.route('/pridict_respons_file')
-def csv_file_download_with_file():
-    file_name = f"input_format/user_info_datafomat - sheet1.csv"
-    return send_file(file_name,
-                     mimetype='text/csv',
-                     attachment_filename='downloaded_forMatFile_name.csv',# 다운받아지는 파일 이름. 
-                     as_attachment=True)
-
-
-@app.route('/request_file')
-def csv_file_download_with_request_file():
-    file_name = f"input_format/user_info_datafomat_request - sheet1.csv"
-    return send_file(file_name,
-                     mimetype='text/csv',
-                     attachment_filename='downloaded_forMatFile_name.csv',# 다운받아지는 파일 이름. 
-                     as_attachment=True)
-
-
 @app.route('/predict')
 def predict():
     user = '기아'
@@ -110,25 +91,6 @@ def predict():
         image_file_Quarter_income= 'graphs/'+user+'/'+user+'_income_Quarter'+'.png',image_file_Yearly_income = 'graphs/'+user+'/'+user+'_income_Yea'+'.png')
     else:
         return render_template('page_not_found.html'), 404
-
-#파레트 발주 페이지 및 발주 넣기
-@app.route('/request_palette',methods=['GET','POST'])
-def PalletRequest():
-    if request.method == 'GET':
-        return render_template('PalletRequest.html')    
-    else:
-        totime = time.strftime('%Y-%m-%d', time.localtime(time.time()))
-        print(request.files['file'])
-        f = request.files['file']
-        name = request.form
-        coname = ""
-        for key, value in name.items():
-            coname = value
-
-        data_csv = pd.read_csv(f)
-        data_csv.to_csv('save_request/' + totime + '-' +coname + ".csv",index=False)
-        
-        return data_csv.to_html()
 
 
 @app.route('/admin')
