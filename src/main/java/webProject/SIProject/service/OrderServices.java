@@ -93,6 +93,10 @@ public class OrderServices {
         return orderList;
     }
 
+    public List<OrderList> allRead(){
+        return orderRepository.findAll();
+    }
+
     // email의 status 주문 찾기. ing의 경우 여러개면 0번째인 ing만 반환하고 전부 제거.
     public OrderList read(String email,String status){
         List<OrderList> orderList = orderRepository.findByUser_EmailAndStatus(email,status);

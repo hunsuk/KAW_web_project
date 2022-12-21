@@ -47,6 +47,7 @@ class orderServiceTest {
         rDTO.setSelected(new String[]{"11A형","12A형","13B형"});
         rDTO.setUserabout("한글도 잘들어갑니다.");
 
+        reservationServices.read(1);
         reservationServices.update(i,"ok", rDTO);
 
         //reservationServices.delete("daw564@naver.com","ing","4");
@@ -59,7 +60,7 @@ class orderServiceTest {
 
         //reservationServices.read(i);
 
-        //orderServices.read("daw564@naver.com");
+//        orderServices.read("daw564@naver.com");
 
         //orderServices.read("daw564@naver.com", "ok");
 

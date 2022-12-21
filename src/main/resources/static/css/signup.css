@@ -20,7 +20,7 @@ body{
 }
 .login-box{
  background: rgb(239, 239, 239);
- border: 1px solid red;
+ border: 1px solid #0d6efd;
  padding: 100px 100px 50px 100px;
  display: flex;
  flex-direction: column;
@@ -97,7 +97,7 @@ label input[type="checkbox"]{
 }
 button{
  outline: none;
- background: #ff4747;
+ background: #0d6efd;
  color: #FFF;
  padding: 16px;
  display: block;

@@ -20,6 +20,7 @@ import webProject.SIProject.domain.Reservation;
 import webProject.SIProject.domain.User;
 import webProject.SIProject.dto.PalletItem_DTO;
 import webProject.SIProject.dto.Reservation_DTO;
+import webProject.SIProject.dto.SelectDelReservation_DTO;
 import webProject.SIProject.dto.SelectPalletItem_DTO;
 import webProject.SIProject.repository.PalletItemRepository;
 import webProject.SIProject.repository.UserRepository;
@@ -32,6 +33,8 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 @RequiredArgsConstructor
 @Controller
 @Slf4j
@@ -76,8 +79,7 @@ public class FunctionController {
         log.info(reservation_list.toString());
         log.info(user.getEmail());
         OrderList orderList = orderServices.read(user.getEmail(),"ing");
-
-        reservationServices.save(user.getEmail(), orderList, reservation_list);
+        reservationServices.save(user.getEmail(), orderList, reservation_list,"처리중");
         model.addAttribute("userAuth",user.getAuth());
 
         return "redirect:/";
@@ -108,6 +110,85 @@ public class FunctionController {
     public String myPage(@AuthenticationPrincipal User user ,Model model){
         model.addAttribute("user_info",user);
         return "Myinfo";
+    }
+
+
+    @GetMapping("/check_my_request")
+    public String check_my_request(@AuthenticationPrincipal User user, Model model){
+
+
+//        OrderList orderList = orderServices.read(user.getEmail(),"sent");
+        List<OrderList> orderList = orderServices.read(user.getEmail());
+        log.info(String.valueOf(orderList.size()));
+        List<PalletItem> palletItems = new ArrayList<PalletItem>();
+        List<Reservation> allReservations = new ArrayList<Reservation>();
+        for(int i = 0; i < orderList.size(); i++){
+            List<Reservation> reservations= reservationServices.read(orderList.get(i).getId());
+            for(int j = 0; j < reservations.size(); j++){
+                allReservations.add(reservations.get(j));
+            }
+        }
+        model.addAttribute("reservations",allReservations);
+        return "Check_my_request";
+    }
+
+    @PostMapping("/request_del")
+    public String request_del(@AuthenticationPrincipal User user , Model model, @ModelAttribute SelectDelReservation_DTO selectDelReservationDto){
+        String[] id = selectDelReservationDto.getSelected().toString().split(",");
+
+        for(int i=0; i< id.length; i++){
+            reservationServices.delete(Long.parseLong(id[i]));
+        }
+
+        List<OrderList> orderList = orderServices.read(user.getEmail());
+        log.info(String.valueOf(orderList.size()));
+        List<PalletItem> palletItems = new ArrayList<PalletItem>();
+        List<Reservation> allReservations = new ArrayList<Reservation>(100);
+        for(int i = 0; i < orderList.size(); i++){
+            List<Reservation> reservations= reservationServices.read(orderList.get(i).getId());
+            for(int j = 0; j < reservations.size(); j++){
+                allReservations.add(reservations.get(j));
+            }
+        }
+        model.addAttribute("reservations",allReservations);
+
+        if(user.getAuth().equals("ROLE_USER")){
+            return "Check_my_request";
+        }else{
+            return "redirect:/control_request";
+        }
+    }
+    @PostMapping("/request_process")
+    public String request_process(@AuthenticationPrincipal User user, Model model ,@ModelAttribute SelectDelReservation_DTO selectDelReservationDto){
+        String[] id = selectDelReservationDto.getSelected().toString().split(",");
+
+        for(int i=0; i< id.length; i++){
+            Optional<Reservation> reservation = reservationServices.readbyID(Long.parseLong(id[i]));
+            reservationServices.delete(Long.parseLong(id[i]));
+            reservation.get().setStatus("배송준비중");
+            reservationServices.save2(reservation);
+        }
+        return "redirect:/control_request";
+    }
+
+    @GetMapping("/control_request")
+    public String control_request(@AuthenticationPrincipal User user, Model model){
+        List<User> users = new ArrayList<>();
+        List<OrderList> orderList = orderServices.allRead();
+        log.info(String.valueOf(orderList.size()));
+        List<PalletItem> palletItems = new ArrayList<PalletItem>();
+        List<Reservation> allReservations = new ArrayList<Reservation>();
+        for(int i = 0; i < orderList.size(); i++){
+
+            List<Reservation> reservations= reservationServices.read(orderList.get(i).getId());
+            for(int j = 0; j < reservations.size(); j++){
+                allReservations.add(reservations.get(j));
+            }
+        }
+
+        model.addAttribute("reservations",allReservations);
+
+        return "Control_request";
     }
 
 

@@ -1,29 +1,39 @@
 package webProject.SIProject.service;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import webProject.SIProject.domain.OrderList;
 import webProject.SIProject.domain.Reservation;
-import webProject.SIProject.domain.User;
 import webProject.SIProject.dto.Reservation_DTO;
 import webProject.SIProject.repository.OrderRepository;
+import webProject.SIProject.repository.PalletItemRepository;
 import webProject.SIProject.repository.ReservationRepository;
 
 import javax.transaction.Transactional;
-import java.io.UnsupportedEncodingException;
-import java.nio.charset.StandardCharsets;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
+@Slf4j
 public class ReservationServices {
     private final ReservationRepository reservationRepository;
     private final OrderRepository orderRepository;
 
+    private final PalletItemRepository palletItemRepository;
     @Transactional
-    public void save(String email, OrderList orderList, Reservation_DTO infoDto) {
+    public void save2(Optional<Reservation> reservation){
+        reservationRepository.save(Reservation.builder()
+                .count(reservation.get().getCount())
+                .rent_day(reservation.get().getRent_day())
+                .orderList(reservation.get().getOrderList())
+                .standardPallet(reservation.get().getStandardPallet())
+                .status(reservation.get().getStatus())
+                .build());
+    }
+    @Transactional
+    public void save(String email, OrderList orderList, Reservation_DTO infoDto, String status) {
             orderList.setStatus("sent");
 //        Optional<OrderList> orderList = orderRepository.findByStatusAndUser_Email(status,email);
 //        if(orderList.isPresent()){
@@ -39,6 +49,7 @@ public class ReservationServices {
                         .rent_day(rentDay)
                         .orderList(orderList)
                         .standardPallet(selected)
+                        .status(status)
                         .build());
             }
 
@@ -46,6 +57,11 @@ public class ReservationServices {
             orderList.setRequest(req);
         }
 //    }
+
+    public Optional<Reservation> readbyID(long id){
+        return reservationRepository.findById(id);
+    }
+
 
     //orderid 기반으로 찾고 딸린 reservation들 전부 삭제 후 dto로부터 읽어와서 재 저장
     @Transactional
@@ -86,6 +102,10 @@ public class ReservationServices {
                 .orElseThrow(IllegalArgumentException::new);
         reservationRepository.deleteByOrderListAndStandardPallet(orderList,standardPallet);
     }
+    @Transactional
+    public void delete(Long id){
+        reservationRepository.deleteById(id);
+    }
 
     //Order ID 기반 찾기
     public List<Reservation> read(Long orderId) {
@@ -93,6 +113,7 @@ public class ReservationServices {
         Optional<OrderList> orderList = orderRepository.findById(orderId);
         if (orderList.isPresent()) {
             OrderList ord = orderList.get();
+
             reservation = reservationRepository.findByOrderList(ord);
         }
         return reservation;
