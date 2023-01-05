@@ -45,6 +45,7 @@ public class UserController {
 
     @GetMapping("/admin")
     public String adminPage(){
+
         return "admin";
     }
 

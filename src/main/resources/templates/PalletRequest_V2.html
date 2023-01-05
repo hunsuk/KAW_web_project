@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
-      xmlns:th="www.thymeleaf.org">
+      xmlns:th="www.thymeleaf.org"
+      lang='kr'>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
@@ -14,7 +15,256 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles_request.css" rel="stylesheet" />
+    <style>
+
+        #external-events {
+            position: fixed;
+            left: 20px;
+            top: 20px;
+            width: 150px;
+            padding: 0 10px;
+            border: 1px solid #ccc;
+            background: #eee;
+            text-align: left;
+        }
+
+        #external-events h4 {
+            font-size: 16px;
+            margin-top: 0;
+            padding-top: 1em;
+        }
+
+        #external-events .fc-event {
+            margin: 3px 0;
+            cursor: move;
+        }
+
+        #external-events p {
+            margin: 1.5em 0;
+            font-size: 11px;
+            color: #666;
+        }
+
+        #external-events p input {
+            margin: 0;
+            vertical-align: middle;
+        }
+
+        #calendar-wrap {
+            /*margin-left: 200px;*/
+        }
+
+        #calendar {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+    </style>
     <script type="text/javascript">
+        var processEvent = new Array();;
+        var calendar;
+        document.addEventListener('DOMContentLoaded', function() {
+
+            /* initialize the external events
+            -----------------------------------------------------------------*/
+
+            var containerEl = document.getElementById('external-events-list');
+            new FullCalendar.Draggable(containerEl, {
+                itemSelector: '.fc-event',
+                eventData: function(eventEl) {
+                    console.log(eventEl.firstElementChild.attributes.item(1))
+                    return {
+                        title: eventEl.innerText.trim(),
+                        color: eventEl.firstElementChild.attributes.item(1).value
+                    }
+                }
+            });
+            //// the individual way to do it
+            // var containerEl = document.getElementById('external-events-list');
+            // var eventEls = Array.prototype.slice.call(
+            //   containerEl.querySelectorAll('.fc-event')
+            // );
+            // eventEls.forEach(function(eventEl) {
+            //   new FullCalendar.Draggable(eventEl, {
+            //     eventData: {
+            //       title: eventEl.innerText.trim(),
+            //     }
+            //   });
+            // });
+
+            /* initialize the calendar
+            -----------------------------------------------------------------*/
+
+            var calendarEl = document.getElementById('calendar');
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+                },
+                editable: true,
+                droppable: true, // this allows things to be dropped onto the calendar
+
+
+
+                eventAdd : function (addInfo){
+                    console.log(addInfo.event);
+                },
+                eventClick: function(arg) {
+                    if(processEvent.indexOf(arg.event._def.defId)!=-1){
+                        return;
+                    }
+                    window.name = "parentForm";
+                    var start = arg.event._instance.range.start.toString().split(' ')
+                    var end = arg.event._instance.range.end.toString().split(' ')
+
+                    var sYear = start[3];
+                    var sDay = start[2];
+                    var sMonth = changeMonth(start[1]);
+
+                    var eYear = end[3];
+                    var eDay = end[2];
+                    var eMonth = changeMonth(end[1]);
+
+                    var eventID = arg.event._def.defId
+
+                    var sendStart = sYear +' ' + sMonth + ' ' + sDay;
+                    var sendEnd = eYear +' ' + eMonth + ' ' + eDay;
+
+
+
+                    var url= "/request_popup?item=" + arg.event._def.title + "&start=" + sendStart + "&end=" + sendEnd + "&id="+eventID;    //팝업창에 출력될 페이지 URL
+                    var winWidth = 700;
+                    var winHeight = 600;
+                    var popupX = (window.screen.width / 2) - (winWidth / 2);
+
+                    var popupY= (window.screen.height / 2) - (winHeight / 2);
+
+                    var popupOption= "width="+winWidth+", height="+winHeight+", left="+popupX + ", top="+popupY;    //팝업창 옵션(optoin)
+
+
+                    var myWindow = window.open(url,"childForm",popupOption);
+
+
+
+
+
+                    // if (confirm("해당 예약을 삭제하시겠습니까?")){
+                    //     // console.log(arg.event.title)
+                    //     // console.log(arg.event.start)
+                    //     // console.log(arg.event.end)
+                    //     // console.log(arg.eventColor)
+                    //     arg.event.remove()
+                    // }
+                    calendar.render();
+
+                },
+                drop: function(arg) {
+                    // is the "remove after drop" checkbox checked?
+                    if (document.getElementById('drop-remove').checked) {
+                        // if so, remove the element from the "Draggable Events" list
+                        arg.draggedEl.parentNode.removeChild(arg.draggedEl);
+                    }
+                },
+
+            });
+            calendar.render();
+        });
+        window.call = function (eventId){
+            eventId = eventId;
+            var event
+            processEvent.push(eventId);
+            for (var i =0; i < calendar.getEvents().length; i++){
+                if (calendar.getEvents()[i]._def.defId == eventId){
+                    event = calendar.getEvents()[i];
+                }
+            }
+            event.setProp("borderColor","gray");
+            event.setProp("backgroundColor","gray");
+            event.setProp("editable",false);
+            console.log(event);
+
+            console.log("inner setProcessEvent");
+        }
+        function setCalendarData(event){
+            // let type = event.target.value;
+            // var doc_type = document.getElementById(type);
+            // var cart_number = document.getElementById("cart_number");
+            // itemAry.push(type);
+            //
+            // doc_type.style = 'display : none;'
+            // doc_type = document.getElementById(type + 1);
+            // doc_type.style = 'display : visibility;'
+            // cart_number.innerText = itemAry.length
+            //
+            // var tem = document.getElementById("tem");
+            // var tem2 = document.getElementById("tem2");
+            // tem.innerHTML = "<INPUT TYPE='text 'style='display : none;' ID='select_pallet' NAME='select_pallet' VALUE = '" + itemAry.toString() + "'>"
+            // tem2.innerHTML = "<INPUT TYPE='text 'style='display : none;' ID='select_pallet' NAME='select_pallet' VALUE = '" + itemAry.toString() + "'>"
+            // console.log("inner setting Calendar");
+            // console.log(calendar.currentData.calendarApi.currentData.eventStore)
+            // console.log(calendar.getEvents())
+            //
+            // console.log(calendar.getEvents()[0]._instance.range.end.toString().split(' '))
+
+        }
+        function changeMonth(month){
+            let data;
+
+            switch (month){
+                case 'Jan':
+                    data = 1;
+                    break;
+                case 'Feb':
+                    data = 2;
+                    break;
+                case 'Mar':
+                    data = 3;
+                    break;
+                case 'Apr':
+                    data = 4;
+                    break;
+                case 'May':
+                    data = 5;
+                    break;
+                case 'Jun':
+                    data = 6;
+                    break;
+                case 'Jul':
+                    data = 7;
+                    break;
+                case 'Aug':
+                    data = 8;
+                    break;
+                case 'Sep':
+                    data = 9;
+                    break;
+                case 'Oct':
+                    data = 10;
+                    break;
+                case 'Nov':
+                    data = 11;
+                    break;
+                case 'Dec':
+                    data = 12;
+                    break;
+            }
+            return data;
+        }
+        function popupOpen(){
+            var url= "/RequestPopup";    //팝업창에 출력될 페이지 URL
+            var winWidth = 700;
+            var winHeight = 600;
+            var popupX = (window.screen.width / 2) - (winWidth / 2);
+
+            var popupY= (window.screen.height / 2) - (winHeight / 2);
+
+            var popupOption= "width="+winWidth+", height="+winHeight+", left="+popupX + ", top="+popupY;    //팝업창 옵션(optoin)
+            var myWindow = window.open(url,"TestName",popupOption);
+            myWindow.document.write("<h1>"+myWindow.name+"</h1>");
+        }
+
+
 
 
 
@@ -32,25 +282,25 @@
                 request.send();
             }
         };
-<!--        window.onunload = function() {-->
-<!--            console.log(itemAry.toString());-->
-<!--            if(itemAry.length !=0){-->
-<!--                console.log(itemAry.toString());-->
-<!--                const request = new XMLHttpRequest();-->
-<!--                // 2. 요청 초기화-->
-<!--                request.open('GET', '/setBuket?items='+itemAry.toString(), true);-->
-<!--                // 3. 요청 전송-->
-<!--                request.send();-->
-<!--            }-->
-<!--        };-->
+        // window.onunload = function() {
+        //     console.log(itemAry.toString());
+        //    if(itemAry.length !=0){
+        //         console.log(itemAry.toString());
+        //         const request = new XMLHttpRequest();
+        //         // 2. 요청 초기화-->
+        //         request.open('GET', '/setBuket?items='+itemAry.toString(), true);
+        //         // 3. 요청 전송-->
+        //         request.send();
+        //     }
+        // };
 
         <!-- 해당 파렛트 장바구니 담기     -->
         function getCart(event){
             let type = event.target.value;
             var doc_type = document.getElementById(type);
             var cart_number = document.getElementById("cart_number");
+            var cart_items = document.getElementById("input_items");
             itemAry.push(type);
-
             doc_type.style = 'display : none;'
             doc_type = document.getElementById(type + 1);
             doc_type.style = 'display : visibility;'
@@ -61,13 +311,21 @@
             tem.innerHTML = "<INPUT TYPE='text 'style='display : none;' ID='select_pallet' NAME='select_pallet' VALUE = '" + itemAry.toString() + "'>"
             tem2.innerHTML = "<INPUT TYPE='text 'style='display : none;' ID='select_pallet' NAME='select_pallet' VALUE = '" + itemAry.toString() + "'>"
             console.log(itemAry)
+
+            cart_items.innerHTML = "";
+            for(var i = 0; i < itemAry.length; i++){
+
+                cart_items.innerHTML += "<div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event' style='background-color: palevioletred;'>\n" +
+                    "                    <div class='fc-event-main' data-color='palevioletred'>"+itemAry[i]+"</div>\n" +
+                    "                </div>"
+            }
+
         }
         <!-- 해당 파렛트 장바구니 담기 취소 -->
         function delCart(event){
             let type = event.target.value;
             var doc_type_del = document.getElementById(type);
             itemAry.splice(itemAry.indexOf(type.substr(0, 3)),1);
-
             doc_type_del.style = 'display : none;'
             console.log(type.substr(0, 4))
             doc_type_in = document.getElementById(type.substr(0, 4));
@@ -82,6 +340,7 @@
             tem2.innerHTML = "<INPUT TYPE='text' style='display : none;' ID='select_pallet' NAME='select_pallet' VALUE = '" + itemAry.toString() + "'>"
         }
     </script>
+    <script src='fullcalendar/dist/index.global.js'></script>
 </head>
 <body>
 <!-- Navigation-->
@@ -124,12 +383,53 @@
         <form action="/request_detail", method="post">
             <a id="tem2"></a>
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-            <button class="btn btn-lg btn-light" href="/request_detail" th:if="${userAuth=='ROLE_USER'}">주문하기 & 장바구니 가기!</button>
+            <button class="btn btn-lg btn-light" href="/request_detail" th:if="${userAuth=='ROLE_USER'}">주문 예약 하기!</button>
         </form>
         <br/>
     </div>
 </header>
 <!-- Section-->
+<section>
+    <div id='wrap'>
+        <div id='external-events'>
+            <h4>Draggable Events</h4>
+
+            <div id='external-events-list'>
+                <div id="input_items"></div>
+
+<!--                <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>-->
+<!--                    <div class='fc-event-main'>My Event 2</div>-->
+<!--                </div>-->
+<!--                <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>-->
+<!--                    <div class='fc-event-main'>My Event 3</div>-->
+<!--                </div>-->
+<!--                <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>-->
+<!--                    <div class='fc-event-main'>My Event 4</div>-->
+<!--                </div>-->
+<!--                <div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>-->
+<!--                    <div class='fc-event-main'>My Event 5</div>-->
+<!--                </div><div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>-->
+<!--                    <div class='fc-event-main'>My Event 6</div>-->
+<!--                </div><div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>-->
+<!--                    <div class='fc-event-main'>My Event 7</div>-->
+<!--                </div><div class='fc-event fc-h-event fc-daygrid-event fc-daygrid-block-event'>-->
+<!--                    <div class='fc-event-main'>My Event 8</div>-->
+<!--                </div>-->
+            </div>
+
+            <p>
+                <input type='checkbox' id='drop-remove' />
+                <label for='drop-remove'>remove after drop</label>
+            </p>
+        </div>
+
+        <div id='calendar-wrap'>
+            <div id='calendar'></div>
+        </div>
+
+    </div>
+
+</section>
 <section>
     <div class="container px-4 px-lg-5 mt-5">
         <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
@@ -150,8 +450,8 @@
                     </div>
                     <!-- Product actions-->
                     <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
-                        <div class="text-center"><button class="btn btn-outline-dark mt-auto" onclick="getCart(event)" th:value="${palletItem.front_type}" th:id = "${palletItem.front_type}">제품 담기</button></div>
-                        <div class="text-center"><button class="btn btn-outline-dark mt-auto" onclick="delCart(event)" style='display : none;' th:value="${palletItem.front_type}+1" th:id="${palletItem.front_type}+1">담기 취소</button></div>
+                        <div class="text-center"><button class="btn btn-outline-dark mt-auto" onclick="getCart(event); setCalendarData(event);" th:value="${palletItem.front_type}" th:id = "${palletItem.front_type}">제품 담기</button></div>
+                        <div class="text-center"><button class="btn btn-outline-dark mt-auto" onclick="delCart(event); delCalendar(event);" style='display : none;' th:value="${palletItem.front_type}+1" th:id="${palletItem.front_type}+1">담기 취소</button></div>
                     </div>
                 </div>
             </div>
@@ -170,5 +470,11 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->
 <script src="js/scripts_request.js"></script>
+
+
+
+
+
+
 </body>
 </html>

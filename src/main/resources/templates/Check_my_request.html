@@ -14,6 +14,156 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
     <!-- Core theme CSS (includes Bootstrap)-->
     <link href="css/styles_request_detail.css" rel="stylesheet" />
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=eee7369355a4f95afc8a33ad53fbdc49"></script>
+    <style>
+        .customoverlay {position:relative;bottom:85px;border-radius:6px;border: 1px solid #ccc;border-bottom:2px solid #ddd;float:left;}
+        .customoverlay:nth-of-type(n) {border:0; box-shadow:0px 1px 2px #888;}
+        .customoverlay a {display:block;text-decoration:none;color:#000;text-align:center;border-radius:6px;font-size:14px;font-weight:bold;overflow:hidden;background: #d95050;background: #d95050 url(https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/arrow_white.png) no-repeat right 14px center;}
+        .customoverlay .title {display:block;text-align:center;background:#fff;margin-right:35px;padding:10px 15px;font-size:14px;font-weight:bold;}
+        .customoverlay:after {content:'';position:absolute;margin-left:-12px;left:50%;bottom:-12px;width:22px;height:12px;background:url('https://t1.daumcdn.net/localimg/localimages/07/mapapidoc/vertex_white.png')}
+    </style>
+    <style>
+
+        body {
+            margin: 40px 10px;
+            padding: 0;
+            font-family: Arial, Helvetica Neue, Helvetica, sans-serif;
+            font-size: 14px;
+        }
+
+        #calendar {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+    </style>
+    <script src='js/index.global.js'></script>
+    <script src='../dist/index.global.js'></script>
+    <script>
+        var calendar, calendarEl;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            calendarEl = document.getElementById('calendar');
+
+            calendar = new FullCalendar.Calendar(calendarEl, {
+                headerToolbar: {
+                    left: 'prev,next today',
+                    center: 'title',
+                    right: 'dayGridMonth,timeGridWeek,timeGridDay'
+                },
+                initialDate: '2020-09-12',
+                navLinks: true, // can click day/week names to navigate views
+                selectable: true,
+                selectMirror: true,
+                // select: function(arg) {
+                //     var title = prompt('Event Title:');
+                //     if (title) {
+                //         calendar.addEvent({
+                //             title: title,
+                //             start: arg.start,
+                //             end: arg.end,
+                //             allDay: arg.allDay
+                //         })
+                //         console.log(arg)
+                //     }
+                //     calendar.unselect()
+                // },
+                eventClick: function(arg) {
+                    window.name = "parentForm";
+                    var start = arg.event._instance.range.start.toString().split(' ')
+                    var end = arg.event._instance.range.end.toString().split(' ')
+
+                    var sYear = start[3];
+                    var sDay = start[2];
+                    var sMonth = changeMonth(start[1]);
+
+                    var eYear = end[3];
+                    var eDay = end[2];
+                    var eMonth = changeMonth(end[1]);
+
+                    var eventID = arg.event._def.defId
+
+                    var sendStart = sYear +' ' + sMonth + ' ' + sDay;
+                    var sendEnd = eYear +' ' + eMonth + ' ' + eDay;
+
+
+
+                    var url= "/request_check_popup?item=" + arg.event._def.title + "&start=" + sendStart + "&end=" + sendEnd + "&id="+eventID;    //팝업창에 출력될 페이지 URL
+                    var winWidth = 700;
+                    var winHeight = 600;
+                    var popupX = (window.screen.width / 2) - (winWidth / 2);
+
+                    var popupY= (window.screen.height / 2) - (winHeight / 2);
+
+                    var popupOption= "width="+winWidth+", height="+winHeight+", left="+popupX + ", top="+popupY;    //팝업창 옵션(optoin)
+
+
+                    var myWindow = window.open(url,"childForm",popupOption);
+                },
+                editable: false,
+                dayMaxEvents: true, // allow "more" link when too many events
+                events: [
+                    {
+                        title: 'A11형(5개)' + ', ' + 'A12형(2개)',
+                        start: '2020-09-18',
+                        end: '2020-09-20'
+                    },
+                    {
+                        title: 'B11형(5개)' + ', ' + 'A12형(2개)',
+                        start: '2020-09-18',
+                        end: '2020-09-20'
+                    },
+                ]
+            });
+
+            calendar.render();
+        });
+        function changeMonth(month){
+            let data;
+
+            switch (month){
+                case 'Jan':
+                    data = 1;
+                    break;
+                case 'Feb':
+                    data = 2;
+                    break;
+                case 'Mar':
+                    data = 3;
+                    break;
+                case 'Apr':
+                    data = 4;
+                    break;
+                case 'May':
+                    data = 5;
+                    break;
+                case 'Jun':
+                    data = 6;
+                    break;
+                case 'Jul':
+                    data = 7;
+                    break;
+                case 'Aug':
+                    data = 8;
+                    break;
+                case 'Sep':
+                    data = 9;
+                    break;
+                case 'Oct':
+                    data = 10;
+                    break;
+                case 'Nov':
+                    data = 11;
+                    break;
+                case 'Dec':
+                    data = 12;
+                    break;
+            }
+            return data;
+        }
+    </script>
+    </script>
+
     <script>
         function all_check(id){
             const checkboxs = document.getElementsByName('selected');
@@ -80,11 +230,22 @@
     </div>
 </header>
 <!-- Section-->
+
+
+<section>
+
+    <div id='calendar-wrap'>
+        <div id='calendar'></div>
+    </div>
+
+
+</section>
 <section class="cart">
     <div class="cart__information">
 
     </div>
     <h2>주문현황</h2>
+    <br/>
     <table class="cart__list">
         <form action="/request_del" method="post" id="requestDel" name="requestDel">
             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -130,6 +291,56 @@
         <button class="cart__bigorderbtn right" type="submit" form="requestDel">주문취소 하기</button>
     </div>
 </section>
+
+
+<section class="cart">
+    <div class="cart__information">
+        <h2>배송 추적</h2>
+        <div class="row gx-4 justify-content-center">
+            <div class="col-lg-8">
+
+                <div id="map" style="height:600px;"></div>
+                <script type="text/javascript" src="js/kakao_check.js"></script>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section class="cart">
+    <div class="cart__information">
+
+    </div>
+    <br/>
+    <table class="cart__list">
+            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+            <thead>
+            <tr>
+                <td>주문 번호</td>
+                <td>위치</td>
+                <td>일시</td>
+                <td>배송상태</td>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td style="text-align: center">
+                    <p>[주문번호] <a>1000</a></p>
+                </td>
+                <td style="text-align: center">
+                    <p>[위치] <a>XX지점(경기도 고양시 XXX XXX)</a></p>
+                </td>
+                <td style="text-align: center">
+                    <p>[일시] <a style="margin:auto;">2020-01-05 09:12:11</a></p>
+                </td>
+                <td style="text-align: center">
+                    <p>[상태] <a>출하</a></p>
+                </td>
+            </tr>
+            </tbody>
+    </table>
+
+</section>
+
 <!-- Footer-->
 <footer class="py-5 bg-dark">
     <div class="container"><p class="m-0 text-center text-white">개인정보처리방침 | 고객센터</p></div>
@@ -138,6 +349,9 @@
     <div class="container"><p class="m-0 text-center text-white">대표전화 1588-0053</p></div>
     <div class="container"><p class="m-0 text-center text-white">Copyright AJ Networks Corporation. All rights reserved.</p></div>
 </footer>
+
+
+
 <!-- Bootstrap core JS-->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <!-- Core theme JS-->

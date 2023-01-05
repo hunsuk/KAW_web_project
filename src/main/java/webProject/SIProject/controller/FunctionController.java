@@ -38,10 +38,9 @@ import java.util.Optional;
 public class FunctionController {
     private final PalletItemService palletItemService;
     private final OrderServices orderServices;
-
     private final ReservationServices reservationServices;
-
     List<PalletItem> palletItemList = new ArrayList<PalletItem>();
+
     @GetMapping("/publish_req")
     public String publish_req(@AuthenticationPrincipal User user,Model model) throws UnsupportedEncodingException {
         palletItemList = palletItemService.getPallet();
@@ -159,7 +158,7 @@ public class FunctionController {
         model.addAttribute("reservations",allReservations);
 
         if(user.getAuth().equals("ROLE_USER")){
-            return "Check_my_request";
+            return "redirect:/check_my_request";
         }else{
             return "redirect:/control_request";
         }
@@ -175,6 +174,16 @@ public class FunctionController {
             reservationServices.save2(reservation);
         }
         return "redirect:/control_request";
+    }
+
+        @GetMapping("/dashboard_admin")
+    public String dashboard_admin(){
+        return "admin_dashboard";
+    }
+
+    @GetMapping("/dashboard_admin_atration")
+    public String dashboard_admin_atration(){
+        return "admin_dashboard_atration";
     }
 
     @GetMapping("/control_request")
@@ -208,6 +217,24 @@ public class FunctionController {
         return "Control_request";
     }
 
+    @GetMapping("/request_popup")
+    public String request_popup(){
+        return "RequestPopup";
+    }
+    @GetMapping("/request_check_popup")
+    public String request_check_popup(){
+        return "Request_Check_Popup";
+    }
+
+    @GetMapping("/request_tracking_popup")
+    public String request_tracking_popup(){
+        return "Request_Tracking_Popup";
+    }
+
+    @GetMapping("/request_map_popup")
+    public String request_map_popup(){
+        return "Request_map_Popup";
+    }
 
     @GetMapping("/prediction_user")
     public String prediction_user(){

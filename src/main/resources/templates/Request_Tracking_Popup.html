@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <link href="css/styles_request_detail.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/modal/fonts/icomoon/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/modal/bootstrap.min.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="css/modal/style.css">
+
+    <title>예약 상세 정보</title>
+    <script>
+        function count_item_plus(id)  {
+
+            const resultElement = document.getElementById(id.value);
+            let number = resultElement.value;
+
+            number = parseInt(number) + 1;
+
+
+            resultElement.value = number;
+        }
+        function count_item_minus(id)  {
+
+            const resultElement = document.getElementById(id.value);
+            let number = resultElement.value;
+
+            number = parseInt(number) - 1;
+
+            if(number==0){
+                number=1;
+            }
+            resultElement.value = number;
+        }
+    </script>
+
+
+</head>
+<body>
+
+<div class="modal-dialog modal-md  modal-dialog-centered" role="document">
+    <div class="modal-content rounded-0">
+        <div class="modal-body py-0">
+
+
+            <div class="d-flex main-content">
+                <div class="content-text p-4">
+                    <h3 class="test">트럭 상세 정보</h3>
+
+                    <form action="/request_send" method="post">
+
+                        <div class="form-group">
+                            <label for="name">[트럭번호]</label>
+                            <a type="text">1000</a>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="name">[계약처]</label>
+                            <a type="text">삼성전자</a>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="name">[현재위치]</label>
+                            <a type="text">경기도 덕양구 주교동 XXX</a>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <div class="col-12">
+                                <label for="mm">[분실여부]</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="item1"  value="A11(X)"  readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="item2" value="B12(X)"  readonly>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="item3" value="A12(3)"  readonly>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">[관할]</label>
+                            <a type="text">XX지점</a>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">[재고]</label>
+                            <a type="text">A11(11) B12(3) A12(4)</a>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">[반납수량]</label>
+                            <a type="text">A11(6) B12(1) A12(4)</a>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function delClick(){
+
+        self.close();
+
+    }
+
+    const url = new URL(window.location.href);
+    const urlParameter = url.searchParams;
+    const itemId = urlParameter.get('id');
+
+
+
+</script>
+<script src="js/model/jquery-3.3.1.min.js"></script>
+<script src="js/model/popper.min.js"></script>
+<script src="js/model/bootstrap.min.js"></script>
+<script src="js/model/main.js"></script>
+</body>
+</html>

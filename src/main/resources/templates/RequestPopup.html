@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500&display=swap" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Source+Serif+Pro:400,600&display=swap" rel="stylesheet">
+    <link href="css/styles_request_detail.css" rel="stylesheet" />
+
+    <link rel="stylesheet" href="css/modal/fonts/icomoon/style.css">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="css/modal/bootstrap.min.css">
+
+    <!-- Style -->
+    <link rel="stylesheet" href="css/modal/style.css">
+
+    <title>예약 상세 정보</title>
+    <script>
+        function count_item_plus(id)  {
+
+            const resultElement = document.getElementById(id.value);
+            let number = resultElement.value;
+
+            number = parseInt(number) + 1;
+
+
+            resultElement.value = number;
+        }
+        function count_item_minus(id)  {
+
+            const resultElement = document.getElementById(id.value);
+            let number = resultElement.value;
+
+            number = parseInt(number) - 1;
+
+            if(number==0){
+                number=1;
+            }
+            resultElement.value = number;
+        }
+    </script>
+
+
+</head>
+<body>
+
+<div class="modal-dialog modal-md  modal-dialog-centered" role="document">
+    <div class="modal-content rounded-0">
+        <div class="modal-body py-0">
+
+
+            <div class="d-flex main-content">
+                <div class="content-text p-4">
+                    <h3 class="test">예약 상세 정보</h3>
+
+                    <form action="/request_send" method="post">
+
+                        <div class="form-group">
+                            <label for="name">상품명</label>
+                            <select id="item" name="country" class="custom-select">
+                                <option id="A11형sub" value="A11">A11형</option>
+                                <option id="A12형sub" value="A12">A12형</option>
+                                <option id="B11형sub" value="B11">B11형</option>
+                                <option id="B13형sub" value="B13">B13형</option>
+                                <option id="A15형sub" value="A15">A15형</option>
+                                <option id="국판형sub" value="국판">국판형</option>
+                                <option id="4*6판형sub" value="4*6판">4*6판형</option>
+                                <option id="국뱌판형sub" value="국배판">국배판형</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="name">수량</label>
+                            <button href="javascript:;" type="button" id="item_count_plus" onclick="count_item_minus(this);">-</button>
+                            <input  type="text" id="item_count" name="count" value="1" readonly="readonly" style="text-align:center;"/>
+                            <button href="javascript:;" type="button" id="item_count_minus" onclick="count_item_plus(this);">+</button>
+                        </div>
+                        <div class="form-group row mb-4">
+                            <div class="col-12">
+                                <label for="mm">시작일</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="Syyyy" placeholder="YYYY">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="Smm" placeholder="MM">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="Sdd" placeholder="DD">
+                            </div>
+                        </div>
+
+                        <div class="form-group row mb-4">
+                            <div class="col-12">
+                                <label for="mm">반납일</label>
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="Eyyyy" placeholder="YYYY">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="Emm" placeholder="MM">
+                            </div>
+                            <div class="col-md-4">
+                                <input type="text" class="form-control" id="Edd" placeholder="DD">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="name">고객 요구사항</label>
+                            <p><textarea class="form-control" name="userAbout" cols="40" rows="6" ></textarea></p>
+                        </div>
+
+                        <div class="form-group d-flex align-items-center">
+                            <input type="button" onclick="delClick()" value="삭제하기" class="btn btn-primary mr-3 px-5">
+                            <input type="submit"  onclick="sendClick()" value="요청하기" class="btn btn-success mr-3 px-5">
+                        </div>
+
+                        <div class="form-group ">
+                            <p class="custom-note"><small>기간 수정은 팝업창을 나가서 해주시기 바랍니다!!</small></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<script>
+
+    function delClick(){
+        var event;
+        for (var i =0; i < window.opener.calendar.getEvents().length; i++){
+            if (window.opener.calendar.getEvents()[i]._def.defId == eventId){
+                event = window.opener.calendar.getEvents()[i];
+            }
+        }
+
+
+        event.remove();
+        self.close();
+
+    }
+    function sendClick(){
+        window.opener.call(eventId)
+        var event;
+        for (var i =0; i < window.opener.calendar.getEvents().length; i++){
+            if (window.opener.calendar.getEvents()[i]._def.defId == eventId){
+                event = window.opener.calendar.getEvents()[i];
+            }
+        }
+
+        event.setProp("title",event._def.title+"("+item_count.value+")");
+
+        self.close();
+
+    }
+
+    const url = new URL(window.location.href);
+    const urlParameter = url.searchParams;
+    let item_list = ["A11형","A12형","B11형","B13형","A15형","국판형","4*6판형","국배판형"]
+
+    var item = urlParameter.get('item')
+    var item_count = document.getElementById("item_count");
+    var item_count_plus = document.getElementById("item_count_plus");
+    var item_count_minus = document.getElementById("item_count_minus");
+    var option_item = document.getElementById(item+"sub");
+    var startDay = urlParameter.get('start').split(' ');
+    var endDay = urlParameter.get('end').split(' ');
+    var eventId = urlParameter.get('id');
+
+
+    for (var i = 0; i<item_list.length; i++) {
+        if (i == item_list.indexOf(item)) {
+            option_item.selected = true;
+        }
+    }
+
+
+    console.log(item)
+    console.log(item_list.indexOf(item))
+    console.log(document.getElementById('item')[item_list.indexOf(item)])
+    document.getElementById('item')[item_list.indexOf(item)]
+
+    document.getElementById('Syyyy').value = startDay[0] +"년";
+    document.getElementById('Smm').value = startDay[1] + "월";
+    document.getElementById('Sdd').value = startDay[2] + "일";
+
+    document.getElementById('Eyyyy').value = endDay[0] + "년";
+    document.getElementById('Emm').value = endDay[1] +"월";
+    document.getElementById('Edd').value = endDay[2] + "일";
+
+
+
+    item_count.id = item;
+    item_count_plus.value = item;
+    item_count_minus.value = item;
+
+</script>
+<script src="js/model/jquery-3.3.1.min.js"></script>
+<script src="js/model/popper.min.js"></script>
+<script src="js/model/bootstrap.min.js"></script>
+<script src="js/model/main.js"></script>
+</body>
+</html>
